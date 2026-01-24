@@ -19,6 +19,9 @@ import HeroStatus from '@/components/HeroStatus';
 import CheckInRing from '@/components/CheckInRing';
 import WeekGrid from '@/components/WeekGrid';
 import DuelCard from '@/components/DuelCard';
+import MockCamera from '@/components/MockCamera';
+import YieldChart from '@/components/YieldChart';
+import PVPDemo from '@/components/PVPDemo';
 import { ZHENGDAO_ABI, ZHENGDAO_CONTRACT_ADDRESS } from '@/lib/contractABI';
 
 // Define WeekDayStatus type locally
@@ -86,6 +89,9 @@ function HomePageContent() {
     'pending',
     'pending',
   ]);
+  const [showCamera, setShowCamera] = useState(false);
+  const [showYieldChart, setShowYieldChart] = useState(false);
+  const [showPVPDemo, setShowPVPDemo] = useState(false);
 
   // Parse user data
   const parsedUserData: UserData | null = userData
@@ -108,16 +114,28 @@ function HomePageContent() {
     return Number(balance) / 1e18;
   };
 
-  // Handle check-in
+  // Handle check-in - open camera first
   const handleCheckIn = async (completed: boolean) => {
-    if (!completed || !address || isCheckingIn) return;
+    if (!completed || isCheckingIn) return;
+
+    // Open mock camera
+    setShowCamera(true);
+  };
+
+  // Handle photo capture from camera
+  const handlePhotoCapture = async (imageUrl: string) => {
+    setShowCamera(false);
+    
+    if (!address) {
+      setErrorMessage('请先连接钱包');
+      return;
+    }
 
     setIsCheckingIn(true);
     setErrorMessage(null);
 
     try {
-      // 临时跳过图片验证，直接调用合约
-      console.log('[Demo] 跳过图片验证，直接打卡');
+      console.log('[Demo] 照片已捕获，开始打卡:', imageUrl);
 
       // 直接调用智能合约 checkIn
       writeContract(
@@ -294,6 +312,51 @@ function HomePageContent() {
             <WeekGrid weekData={weekData} />
 
             <DuelCard />
+
+            {/* Demo Controls for non-connected users */}
+            <div className="space-y-4 mt-8">
+              <div
+                className="p-4 border-2 border-ink/20"
+                style={{ borderRadius: 0 }}
+              >
+                <h3
+                  className="text-lg font-bold text-ink mb-4"
+                  style={{ fontFamily: 'Georgia, serif' }}
+                >
+                  📊 Demo 演示
+                </h3>
+                
+                <div className="grid grid-cols-1 gap-3">
+                  <button
+                    onClick={() => setShowYieldChart(!showYieldChart)}
+                    className="py-3 px-4 border-2 border-ink text-ink font-bold text-left"
+                    style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+                  >
+                    {showYieldChart ? '隐藏' : '显示'} 收益曲线图
+                  </button>
+                  
+                  <button
+                    onClick={() => setShowPVPDemo(!showPVPDemo)}
+                    className="py-3 px-4 border-2 border-ink text-ink font-bold text-left"
+                    style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+                  >
+                    {showPVPDemo ? '隐藏' : '显示'} PVP 机制演示
+                  </button>
+                </div>
+              </div>
+
+              {/* Yield Chart */}
+              {showYieldChart && (
+                <YieldChart
+                  days={30}
+                  initialBalance={1000}
+                  yieldRate={0.005}
+                />
+              )}
+
+              {/* PVP Demo */}
+              {showPVPDemo && <PVPDemo />}
+            </div>
           </div>
         </div>
       ) : (
@@ -392,7 +455,60 @@ function HomePageContent() {
 
           {/* ==================== Duel Card ==================== */}
           <DuelCard />
+
+          {/* ==================== Demo Controls ==================== */}
+          <div className="space-y-4 mt-8">
+            <div
+              className="p-4 border-2 border-ink/20"
+              style={{ borderRadius: 0 }}
+            >
+              <h3
+                className="text-lg font-bold text-ink mb-4"
+                style={{ fontFamily: 'Georgia, serif' }}
+              >
+                📊 Demo 演示
+              </h3>
+              
+              <div className="grid grid-cols-1 gap-3">
+                <button
+                  onClick={() => setShowYieldChart(!showYieldChart)}
+                  className="py-3 px-4 border-2 border-ink text-ink font-bold text-left"
+                  style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+                >
+                  {showYieldChart ? '隐藏' : '显示'} 收益曲线图
+                </button>
+                
+                <button
+                  onClick={() => setShowPVPDemo(!showPVPDemo)}
+                  className="py-3 px-4 border-2 border-ink text-ink font-bold text-left"
+                  style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+                >
+                  {showPVPDemo ? '隐藏' : '显示'} PVP 机制演示
+                </button>
+              </div>
+            </div>
+
+            {/* Yield Chart */}
+            {showYieldChart && (
+              <YieldChart
+                days={30}
+                initialBalance={1000}
+                yieldRate={0.005}
+              />
+            )}
+
+            {/* PVP Demo */}
+            {showPVPDemo && <PVPDemo />}
+          </div>
         </div>
+      )}
+
+      {/* ==================== Mock Camera Modal ==================== */}
+      {showCamera && (
+        <MockCamera
+          onCapture={handlePhotoCapture}
+          onClose={() => setShowCamera(false)}
+        />
       )}
 
       {/* ==================== Footer ==================== */}
