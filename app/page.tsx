@@ -12,7 +12,7 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { http, createConfig } from 'wagmi';
-import { hardhat, sepolia } from 'wagmi/chains';
+import { bscTestnet } from 'wagmi/chains';
 import { injected } from 'wagmi/connectors';
 
 import HeroStatus from '@/components/HeroStatus';
@@ -27,13 +27,12 @@ import { ZHENGDAO_ABI, ZHENGDAO_CONTRACT_ADDRESS } from '@/lib/contractABI';
 // Define WeekDayStatus type locally
 type WeekDayStatus = 'victory' | 'defeat' | 'pending';
 
-// Wagmi configuration for the demo
+// Wagmi configuration for the demo - 使用 BNB 测试网
 const config = createConfig({
-  chains: [hardhat, sepolia],
+  chains: [bscTestnet],
   connectors: [injected()],
   transports: {
-    [hardhat.id]: http(),
-    [sepolia.id]: http(),
+    [bscTestnet.id]: http('https://data-seed-prebsc-1-s1.binance.org:8545'),
   },
 });
 
@@ -264,18 +263,32 @@ function HomePageContent() {
           </p>
         </div>
 
-        {/* Demo Mode Indicator */}
-        {isDemoMode && (
-          <div
-            className="px-3 py-1 text-xs font-bold text-white"
+        <div className="flex gap-2 items-center">
+          {/* Analytics Link */}
+          <a
+            href="/analytics"
+            className="px-3 py-1 text-xs border-2 border-ink text-ink font-bold"
             style={{
-              backgroundColor: '#D43628',
+              borderRadius: 0,
               fontFamily: 'Georgia, serif',
             }}
           >
-            演示模式
-          </div>
-        )}
+            数据分析
+          </a>
+
+          {/* Demo Mode Indicator */}
+          {isDemoMode && (
+            <div
+              className="px-3 py-1 text-xs font-bold text-white"
+              style={{
+                backgroundColor: '#D43628',
+                fontFamily: 'Georgia, serif',
+              }}
+            >
+              演示模式
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ==================== Wallet Connection ==================== */}
@@ -390,7 +403,7 @@ function HomePageContent() {
                 className="text-sm font-bold text-ink"
                 style={{ fontFamily: 'Georgia, serif' }}
               >
-                {balance ? formatBalance(balance.value).toFixed(4) : '0.0000'} ETH
+                {balance ? formatBalance(balance.value).toFixed(4) : '0.0000'} BNB
               </p>
             </div>
 
