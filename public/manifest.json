@@ -1,22 +1,22 @@
 {
-  "name": "证道 ZhengDao",
+  "name": "证道 - 首个 AI 复盘挖矿 DApp",
   "short_name": "证道",
-  "description": "基于区块链的打卡激励系统 - 修身、齐家、证道",
+  "description": "用区块链和 AI 重新定义自我修炼 | 每天 3 分钟，让成长变现 | 修身 · 齐家 · 证道",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#000000",
+  "background_color": "#FFFEF2",
+  "theme_color": "#D43628",
   "orientation": "portrait",
   "scope": "/",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/logo-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/logo-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
