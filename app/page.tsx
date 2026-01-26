@@ -22,7 +22,9 @@ import DuelCard from '@/components/DuelCard';
 import MockCamera from '@/components/MockCamera';
 import YieldChart from '@/components/YieldChart';
 import PVPDemo from '@/components/PVPDemo';
+import ReflectionFlow from '@/components/ReflectionFlow';
 import { ZHENGDAO_ABI, ZHENGDAO_CONTRACT_ADDRESS } from '@/lib/contractABI';
+import { ReflectionService } from '@/lib/storage';
 
 // Define WeekDayStatus type locally
 type WeekDayStatus = 'victory' | 'defeat' | 'pending';
@@ -79,6 +81,10 @@ function HomePageContent() {
   const [isCheckingIn, setIsCheckingIn] = useState(false);
   const [checkInCompleted, setCheckInCompleted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showReflection, setShowReflection] = useState(false);
+  const [hasReflectedToday, setHasReflectedToday] = useState(false);
+  const [isSkipMode, setIsSkipMode] = useState(false);
+  const [skipWalletAddress, setSkipWalletAddress] = useState<string | null>(null);
   const [weekData, setWeekData] = useState<WeekDayStatus[]>([
     'pending',
     'pending',
@@ -102,6 +108,9 @@ function HomePageContent() {
       }
     : null;
 
+  // 使用真实地址或模拟地址
+  const effectiveAddress = address || skipWalletAddress;
+
   // Calculate total balance (principal + yield)
   const totalBalance = parsedUserData?.totalBalance || 0n;
   const principalAmount = parsedUserData?.principalAmount || 0n;
@@ -113,12 +122,43 @@ function HomePageContent() {
     return Number(balance) / 1e18;
   };
 
-  // Handle check-in - open camera first
+  // Handle check-in - reflection first, then camera
   const handleCheckIn = async (completed: boolean) => {
     if (!completed || isCheckingIn) return;
 
-    // Open mock camera
-    setShowCamera(true);
+    // Use effective address (real or skip mode)
+    const walletAddr = effectiveAddress;
+    if (!walletAddr) return;
+
+    // Check if already reflected today
+    const hasReflected = await ReflectionService.hasReflectedToday(walletAddr);
+    if (hasReflected) {
+      // Already reflected, go directly to camera
+      setShowCamera(true);
+    } else {
+      // Show reflection flow first
+      setShowReflection(true);
+    }
+  };
+
+  // Handle reflection completion
+  const handleReflectionComplete = () => {
+    setShowReflection(false);
+    setHasReflectedToday(true);
+    // After reflection, open camera for check-in
+    if (isSkipMode) {
+      // In skip mode, just mark as completed without actual contract call
+      setCheckInCompleted(true);
+      const today = new Date().getDay();
+      const dayIndex = today === 0 ? 6 : today - 1;
+      setWeekData((prev) => {
+        const newWeekData = [...prev];
+        newWeekData[dayIndex] = 'victory';
+        return newWeekData;
+      });
+    } else {
+      setShowCamera(true);
+    }
   };
 
   // Handle photo capture from camera
@@ -264,6 +304,18 @@ function HomePageContent() {
         </div>
 
         <div className="flex gap-2 items-center">
+          {/* Skip Mode Indicator */}
+          {isSkipMode && (
+            <div
+              className="px-3 py-1 text-xs font-bold bg-white border-2 border-[#D43628] text-[#D43628]"
+              style={{
+                fontFamily: 'Georgia, serif',
+              }}
+            >
+              体验模式
+            </div>
+          )}
+
           {/* Analytics Link */}
           <a
             href="/analytics"
@@ -292,7 +344,7 @@ function HomePageContent() {
       </div>
 
       {/* ==================== Wallet Connection ==================== */}
-      {!isConnected ? (
+      {!isConnected && !isSkipMode ? (
         <div className="space-y-4">
           <div
             className="p-6 border-2 border-ink bg-paper"
@@ -307,7 +359,7 @@ function HomePageContent() {
             <button
               onClick={() => connect({ connector: connectors[0] })}
               disabled={connectPending}
-              className="w-full py-3 bg-ink text-paper font-bold"
+              className="w-full py-3 mb-3 bg-ink text-paper font-bold"
               style={{
                 borderRadius: 0,
                 fontFamily: 'Georgia, serif',
@@ -316,11 +368,34 @@ function HomePageContent() {
             >
               {connectPending ? '连接中...' : '连接钱包'}
             </button>
+
+            {/* Skip Button - Demo Mode */}
+            <button
+              onClick={() => {
+                // Generate a demo wallet address
+                const demoAddress = '0x0000000000000000000000000000000000000000' as `0x${string}`;
+                setSkipWalletAddress(demoAddress);
+                setIsSkipMode(true);
+              }}
+              className="w-full py-3 bg-white text-ink font-bold border-2 border-ink"
+              style={{
+                borderRadius: 0,
+                fontFamily: 'Georgia, serif',
+              }}
+            >
+              跳过 / 体验模式
+            </button>
+            <p
+              className="text-xs text-center text-ink/60 mt-3"
+              style={{ fontFamily: 'Georgia, serif' }}
+            >
+              体验模式无需连接钱包，可体验全部功能
+            </p>
           </div>
 
           {/* Demo Mode Components (without wallet) */}
           <div className="space-y-6">
-            <CheckInRing isCompleted={checkInCompleted} />
+            <CheckInRing isCompleted={checkInCompleted} onToggle={handleCheckIn} />
 
             <WeekGrid weekData={weekData} />
 
@@ -338,7 +413,7 @@ function HomePageContent() {
                 >
                   📊 Demo 演示
                 </h3>
-                
+
                 <div className="grid grid-cols-1 gap-3">
                   <button
                     onClick={() => setShowYieldChart(!showYieldChart)}
@@ -347,7 +422,7 @@ function HomePageContent() {
                   >
                     {showYieldChart ? '隐藏' : '显示'} 收益曲线图
                   </button>
-                  
+
                   <button
                     onClick={() => setShowPVPDemo(!showPVPDemo)}
                     className="py-3 px-4 border-2 border-ink text-ink font-bold text-left"
@@ -375,20 +450,20 @@ function HomePageContent() {
       ) : (
         /* ==================== Connected State ==================== */
         <div className="space-y-6">
-          {/* Wallet Info */}
+          {/* Wallet Info / Skip Mode Info */}
           <div className="flex justify-between items-center p-4 border border-ink/20">
             <div>
               <p
                 className="text-xs text-ink/60"
                 style={{ fontFamily: 'Georgia, serif' }}
               >
-                已连接
+                {isSkipMode ? '体验模式' : '已连接'}
               </p>
               <p
                 className="text-sm font-bold text-ink"
                 style={{ fontFamily: 'Georgia, serif' }}
               >
-                {truncateAddress(address || '')}
+                {isSkipMode ? 'Demo User' : truncateAddress(address || '')}
               </p>
             </div>
 
@@ -397,26 +472,54 @@ function HomePageContent() {
                 className="text-xs text-ink/60"
                 style={{ fontFamily: 'Georgia, serif' }}
               >
-                余额
+                {isSkipMode ? '状态' : '余额'}
               </p>
               <p
                 className="text-sm font-bold text-ink"
                 style={{ fontFamily: 'Georgia, serif' }}
               >
-                {balance ? formatBalance(balance.value).toFixed(4) : '0.0000'} BNB
+                {isSkipMode ? '体验中' : (balance ? formatBalance(balance.value).toFixed(4) : '0.0000') + ' BNB'}
               </p>
             </div>
 
-            <button
-              onClick={() => disconnect()}
-              className="px-4 py-2 text-xs border border-ink text-ink"
-              style={{
-                borderRadius: 0,
-                fontFamily: 'Georgia, serif',
-              }}
-            >
-              断开
-            </button>
+            {!isSkipMode && (
+              <button
+                onClick={() => disconnect()}
+                className="px-4 py-2 text-xs border border-ink text-ink"
+                style={{
+                  borderRadius: 0,
+                  fontFamily: 'Georgia, serif',
+                }}
+              >
+                断开
+              </button>
+            )}
+
+            {isSkipMode && (
+              <button
+                onClick={() => {
+                  setIsSkipMode(false);
+                  setSkipWalletAddress(null);
+                  setCheckInCompleted(false);
+                  setWeekData([
+                    'pending',
+                    'pending',
+                    'pending',
+                    'pending',
+                    'pending',
+                    'pending',
+                    'pending',
+                  ]);
+                }}
+                className="px-4 py-2 text-xs border border-ink text-ink"
+                style={{
+                  borderRadius: 0,
+                  fontFamily: 'Georgia, serif',
+                }}
+              >
+                退出
+              </button>
+            )}
           </div>
 
           {/* Error Message */}
@@ -446,12 +549,12 @@ function HomePageContent() {
           {/* ==================== Hero Status ==================== */}
           <div className="space-y-6">
             <HeroStatus
-              totalBalance={totalBalance}
-              principalAmount={principalAmount}
-              yieldAmount={yieldAmount}
-              checkInCount={checkInCount}
+              totalBalance={isSkipMode ? 1000000000000000000n : totalBalance}
+              principalAmount={isSkipMode ? 1000000000000000000n : principalAmount}
+              yieldAmount={isSkipMode ? 0n : yieldAmount}
+              checkInCount={isSkipMode ? checkInCompleted ? 1 : 0 : checkInCount}
               currentStreak={0}
-              walletAddress={address || ''}
+              walletAddress={effectiveAddress || ''}
             />
           </div>
 
@@ -514,6 +617,15 @@ function HomePageContent() {
             {showPVPDemo && <PVPDemo />}
           </div>
         </div>
+      )}
+
+      {/* ==================== Reflection Flow Modal ==================== */}
+      {showReflection && effectiveAddress && (
+        <ReflectionFlow
+          walletAddress={effectiveAddress}
+          onComplete={handleReflectionComplete}
+          onCancel={() => setShowReflection(false)}
+        />
       )}
 
       {/* ==================== Mock Camera Modal ==================== */}

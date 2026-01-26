@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useAccount } from 'wagmi';
 import {
   AreaChart,
   Area,
@@ -20,6 +21,8 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
+import { MonthlyReport } from '@/components/MonthlyReport';
+import { ReflectionService } from '@/lib/storage';
 
 /**
  * Analytics Page - 数据分析页面
@@ -83,6 +86,19 @@ const heatmapData = Array.from({ length: 4 }, (_, week) =>
 
 export default function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d');
+  const [showPersonalReport, setShowPersonalReport] = useState(false);
+  const { address, isConnected } = useAccount();
+
+  // 检查用户是否有复盘数据
+  useEffect(() => {
+    async function checkHasData() {
+      if (isConnected && address) {
+        const reflections = await ReflectionService.getAllReflections(address);
+        setShowPersonalReport(reflections.length > 0);
+      }
+    }
+    checkHasData();
+  }, [isConnected, address]);
 
   return (
     <div className="min-h-screen bg-paper p-6 space-y-8">
@@ -626,6 +642,25 @@ export default function AnalyticsPage() {
           ))}
         </div>
       </motion.div>
+
+      {/* Personal Monthly Report */}
+      {showPersonalReport && address && (
+        <motion.div
+          className="border-2 border-[#D43628] p-6 bg-[#FFFEF2]"
+          style={{ borderRadius: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.3 }}
+        >
+          <h3
+            className="text-xl font-bold text-black mb-4"
+            style={{ fontFamily: 'Georgia, serif' }}
+          >
+            📊 我的月度成长报告
+          </h3>
+          <MonthlyReport walletAddress={address} />
+        </motion.div>
+      )}
 
       {/* Footer */}
       <footer className="pt-8 pb-4 text-center">
