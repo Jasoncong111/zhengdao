@@ -7,9 +7,10 @@ import { StructuredReflectionData } from './db';
 
 /**
  * DeepSeek API 配置
+ * 支持官方 API 和硅基流动 API
  */
-const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
-const DEEPSEEK_MODEL = 'deepseek-chat';
+const DEEPSEEK_API_URL = process.env.DEEPSEEK_API_URL || 'https://api.deepseek.com/v1/chat/completions';
+const DEEPSEEK_MODEL = process.env.DEEPSEEK_MODEL || 'deepseek-chat';
 
 /**
  * AI 处理错误
