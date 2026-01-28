@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>证道项目 - 开发进展看板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #000000 0%, #D43628 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .stat-card .number {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card .label {
+            font-size: 1.1em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #D43628;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title .emoji {
+            font-size: 1.2em;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .team-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .team-card .role {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .team-card .role .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .team-card .role .name {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .team-card .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .team-card .skill {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #555;
+        }
+
+        .team-card .tasks {
+            margin-top: 15px;
+        }
+
+        .team-card .task-item {
+            background: #fafafa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 4px solid #ddd;
+        }
+
+        .team-card .task-item.status-todo {
+            border-left-color: #ff9800;
+        }
+
+        .team-card .task-item.status-done {
+            border-left-color: #4caf50;
+            background: #f0f9ff;
+        }
+
+        .team-card .task-item.status-progress {
+            border-left-color: #2196f3;
+            background: #fff8e1;
+        }
+
+        .task-item .task-name {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .task-item .task-meta {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 25px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .timeline-item.completed::before {
+            background: #4caf50;
+        }
+
+        .timeline-item .date {
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item .title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item .description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s ease;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📜 证道项目</h1>
+            <p class="subtitle">双链 SBT 成就系统 - 开发进展看板</p>
+            <div class="badge">最后更新: 2026-01-27</div>
+        </div>
+
+        <div class="content">
+            <!-- 项目概览 -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="emoji">📊</span>
+                    项目概览
+                </h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">V3.0</div>
+                        <div class="label">当前版本</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">6</div>
+                        <div class="label">AI 团队成员</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">23</div>
+                        <div class="label">总任务数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">42</div>
+                        <div class="label">预计天数</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 35%;">35%</div>
+                </div>
+                <p style="text-align: center; color: #666; margin-top: 10px;">
+                    整体进度：基础框架已完成，双链 SBT 实现进行中
+                </p>
+            </div>
+
+            <!-- AI 团队成员 -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="emoji">👥</span>
+                    AI 团队成员与任务分配
+                </h2>
+                <div class="team-grid">
+                    <!-- AI #1 -->
+                    <div class="team-card">
+                        <div class="role">
+                            <div class="avatar">1</div>
+                            <div class="name">BNB Chain 合约工程师</div>
+                        </div>
+                        <div class="skills">
+                            <span class="skill">Solidity</span>
+                            <span class="skill">Hardhat</span>
+                            <span class="skill">ERC-721</span>
+                        </div>
+                        <div class="tasks">
+                            <div class="task-item status-done">
+                                <div class="task-name">TASK-1-1: BNB SBT 合约开发</div>
+                                <div class="task-meta">2天 · 已完成 · ZhengDaoSBT.sol</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-1-2: BNB 合约测试</div>
+                                <div class="task-meta">1天 · 待开始</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-1-3: BNB 合约部署</div>
+                                <div class="task-meta">1天 · 待开始</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI #2 -->
+                    <div class="team-card">
+                        <div class="role">
+                            <div class="avatar">2</div>
+                            <div class="name">Solana 程序工程师</div>
+                        </div>
+                        <div class="skills">
+                            <span class="skill">Rust</span>
+                            <span class="skill">Anchor</span>
+                            <span class="skill">Solana Web3</span>
+                        </div>
+                        <div class="tasks">
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-2-1: Solana SBT 程序开发</div>
+                                <div class="task-meta">3天 · 待开始</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-2-2: Solana 程序测试</div>
+                                <div class="task-meta">1天 · 待开始</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-2-3: Solana 程序部署</div>
+                                <div class="task-meta">1天 · 待开始</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI #3 -->
+                    <div class="team-card">
+                        <div class="role">
+                            <div class="avatar">3</div>
+                            <div class="name">前端核心开发工程师</div>
+                        </div>
+                        <div class="skills">
+                            <span class="skill">React</span>
+                            <span class="skill">TypeScript</span>
+                            <span class="skill">状态管理</span>
+                        </div>
+                        <div class="tasks">
+                            <div class="task-item status-done">
+                                <div class="task-name">TASK-1-6: 成就系统核心</div>
+                                <div class="task-meta">2天 · 已完成 · achievement-system.ts</div>
+                            </div>
+                            <div class="task-item status-done">
+                                <div class="task-name">TASK-1-7: 数据库扩展</div>
+                                <div class="task-meta">1天 · 已完成 · db-achievement.ts</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-1-11: BNB 合约集成</div>
+                                <div class="task-meta">1天 · 待开始</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-2-4: Solana 钱包集成</div>
+                                <div class="task-meta">2天 · 待开始</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI #4 -->
+                    <div class="team-card">
+                        <div class="role">
+                            <div class="avatar">4</div>
+                            <div class="name">UI 组件开发工程师</div>
+                        </div>
+                        <div class="skills">
+                            <span class="skill">React 组件</span>
+                            <span class="skill">Tailwind CSS</span>
+                            <span class="skill">动画</span>
+                        </div>
+                        <div class="tasks">
+                            <div class="task-item status-done">
+                                <div class="task-name">TASK-1-8: LevelDisplay 组件</div>
+                                <div class="task-meta">1天 · 已完成</div>
+                            </div>
+                            <div class="task-item status-done">
+                                <div class="task-name">TASK-1-9: SBTGallery 组件</div>
+                                <div class="task-meta">2天 · 已完成</div>
+                            </div>
+                            <div class="task-item status-done">
+                                <div class="task-name">TASK-1-10: ClaimSBTFlow 组件</div>
+                                <div class="task-meta">1天 · 已完成</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-2-6/2-7/2-8: Solana 适配</div>
+                                <div class="task-meta">3天 · 待开始</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI #5 -->
+                    <div class="team-card">
+                        <div class="role">
+                            <div class="avatar">5</div>
+                            <div class="name">UI/UX 设计师</div>
+                        </div>
+                        <div class="skills">
+                            <span class="skill">UI 设计</span>
+                            <span class="skill">视觉设计</span>
+                            <span class="skill">水墨风格</span>
+                        </div>
+                        <div class="tasks">
+                            <div class="task-item status-done">
+                                <div class="task-name">TASK-1-4: SBT 视觉设计</div>
+                                <div class="task-meta">2天 · 已完成 · 6个等级图像</div>
+                            </div>
+                            <div class="task-item status-progress">
+                                <div class="task-name">TASK-1-5: 元数据准备</div>
+                                <div class="task-meta">1天 · 进行中</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-3-1: Coming Soon 界面设计</div>
+                                <div class="task-meta">1天 · 待开始</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI #6 -->
+                    <div class="team-card">
+                        <div class="role">
+                            <div class="avatar">6</div>
+                            <div class="name">DevOps 与集成工程师</div>
+                        </div>
+                        <div class="skills">
+                            <span class="skill">配置管理</span>
+                            <span class="skill">部署</span>
+                            <span class="skill">测试</span>
+                        </div>
+                        <div class="tasks">
+                            <div class="task-item status-done">
+                                <div class="task-name">TASK-1-12: 项目配置和依赖</div>
+                                <div class="task-meta">1天 · 已完成</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-3-4: 集成测试</div>
+                                <div class="task-meta">2天 · 待开始</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-3-5: 性能优化</div>
+                                <div class="task-meta">1天 · 待开始</div>
+                            </div>
+                            <div class="task-item status-todo">
+                                <div class="task-name">TASK-3-6: 文档和部署指南</div>
+                                <div class="task-meta">1天 · 待开始</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 版本历史 -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="emoji">🚀</span>
+                    版本历史
+                </h2>
+                <div class="timeline">
+                    <div class="timeline-item completed">
+                        <div class="date">V1.0 - MVP 完成</div>
+                        <div class="title">基础功能上线</div>
+                        <div class="description">
+                            实现了基础的打卡功能、用户界面和合约交互框架。用户可以连接钱包、每日打卡并获得奖励。
+                        </div>
+                    </div>
+                    <div class="timeline-item completed">
+                        <div class="date">V2.0 - 数据库持久化</div>
+                        <div class="title">IndexedDB 数据存储</div>
+                        <div class="description">
+                            实现了基于 Dexie 的本地数据库，支持数据持久化存储。用户数据不再丢失，支持离线访问。
+                        </div>
+                    </div>
+                    <div class="timeline-item completed">
+                        <div class="date">V3.0 - AI 复盘系统</div>
+                        <div class="title">智能反思与分析</div>
+                        <div class="description">
+                            集成 DeepSeek AI，实现每日三问功能。用户可以记录今日成就、改进点和明日计划，AI 提供智能分析和建议。
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="date">V4.0 - 双链 SBT 实现（进行中）</div>
+                        <div class="title">BNB Chain + Solana 双链支持</div>
+                        <div class="description">
+                            正在实现基于 BNB Chain 和 Solana 的双链 SBT 系统。包含 6 个修行等级的成就体系，每个等级对应不同的 SBT。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 核心功能 -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="emoji">✨</span>
+                    核心功能
+                </h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">6</div>
+                        <div class="label">修行等级</div>
+                        <p style="font-size: 0.85em; color: #666; margin-top: 5px;">
+                            从见素到抱一的修行境界
+                        </p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">2</div>
+                        <div class="label">区块链支持</div>
+                        <p style="font-size: 0.85em; color: #666; margin-top: 5px;">
+                            BNB Chain + Solana
+                        </p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">3</div>
+                        <div class="label">每日问题</div>
+                        <p style="font-size: 0.85em; color: #666; margin-top: 5px;">
+                            值得记录 · 改进 · 计划
+                        </p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">∞</div>
+                        <div class="label">SBT 收藏</div>
+                        <p style="font-size: 0.85em; color: #666; margin-top: 5px;">
+                            不可转移的成就证明
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 技术栈 -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="emoji">⚙️</span>
+                    技术栈
+                </h2>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <h3 style="margin-bottom: 15px;">前端技术</h3>
+                        <div class="skills">
+                            <span class="skill">Next.js 15.1</span>
+                            <span class="skill">React 19</span>
+                            <span class="skill">TypeScript 5.3</span>
+                            <span class="skill">TailwindCSS</span>
+                            <span class="skill">Framer Motion</span>
+                            <span class="skill">TanStack Query</span>
+                            <span class="skill">Dexie (IndexedDB)</span>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <h3 style="margin-bottom: 15px;">Web3 技术</h3>
+                        <div class="skills">
+                            <span class="skill">Wagmi v2 + Viem</span>
+                            <span class="skill">@solana/web3.js</span>
+                            <span class="skill">Wallet Adapter</span>
+                            <span class="skill">Solidity 0.8.20</span>
+                            <span class="skill">Rust (Anchor)</span>
+                            <span class="skill">Hardhat</span>
+                            <span class="skill">OpenZeppelin</span>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <h3 style="margin-bottom: 15px;">开发工具</h3>
+                        <div class="skills">
+                            <span class="skill">Jest</span>
+                            <span class="skill">ESLint</span>
+                            <span class="skill">Prettier</span>
+                            <span class="skill">Git</span>
+                            <span class="skill">npm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 下一步计划 -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="emoji">🎯</span>
+                    下一步计划
+                </h2>
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border-left: 4px solid #ffc107;">
+                    <h3 style="margin-bottom: 15px; color: #856404;">Week 1-2 优先任务</h3>
+                    <ul style="line-height: 2; color: #856404;">
+                        <li><strong>AI #1</strong>: 完成 BNB 合约测试并部署到测试网（TASK-1-2, TASK-1-3）</li>
+                        <li><strong>AI #3</strong>: 完成 BNB 合约前端集成（TASK-1-11）</li>
+                        <li><strong>AI #5</strong>: 完成 SBT 元数据准备（TASK-1-5）</li>
+                        <li><strong>AI #2</strong>: 开始 Solana SBT 程序开发（TASK-2-1）</li>
+                        <li><strong>AI #6</strong>: 准备集成测试环境（TASK-3-4）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>修身 · 齏家 · 证道</strong></p>
+            <p style="margin-top: 10px;">
+                项目地址：<code>/Users/jasoncong/Desktop/claude code/黑客松项目-证道</code>
+            </p>
+            <p style="margin-top: 5px; font-size: 0.9em;">
+                使用 Claude Code 管理 · 由 6 位 AI 专家协同开发
+            </p>
+        </div>
+    </div>
+</body>
+</html>

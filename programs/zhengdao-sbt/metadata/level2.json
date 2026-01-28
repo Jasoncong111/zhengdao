@@ -1,0 +1,51 @@
+{
+  "name": "证道 · 中级修行者",
+  "symbol": "ZHENGD",
+  "description": "修行三十日，心性渐定。悟天地之理，明修身之道，持之以恒，道心渐坚。",
+  "image": "https://gateway.arweave.net/tx-id-placeholder-level2",
+  "animation_url": null,
+  "external_url": "https://zhengdao.io/sbt/level2",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 2
+    },
+    {
+      "trait_type": "Title",
+      "value": "中级修行者"
+    },
+    {
+      "trait_type": "Days",
+      "value": 30
+    },
+    {
+      "trait_type": "Element",
+      "value": "火"
+    },
+    {
+      "trait_type": "Color",
+      "value": "赤"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Uncommon"
+    },
+    {
+      "trait_type": "Stage",
+      "value": "小成"
+    }
+  ],
+  "collection": {
+    "name": "证道 · 灵魂绑定代币",
+    "family": "ZhengDAO SBT"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://gateway.arweave.net/tx-id-placeholder-level2",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

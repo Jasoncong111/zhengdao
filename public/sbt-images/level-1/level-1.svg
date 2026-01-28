@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <!-- 灰色渐变背景 -->
+    <linearGradient id="grayGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6B7280;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 淡墨晕染效果 -->
+    <radialGradient id="inkWash" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#9CA3AF;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#9CA3AF;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- 朱砂红印章渐变 -->
+    <linearGradient id="sealRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B91C1C;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 背景渐变 -->
+  <rect width="1080" height="1080" fill="url(#grayGradient)" />
+
+  <!-- 水墨晕染装饰 - 多层叠加 -->
+  <circle cx="200" cy="900" r="300" fill="url(#inkWash)" opacity="0.5" />
+  <circle cx="900" cy="200" r="250" fill="url(#inkWash)" opacity="0.4" />
+  <circle cx="540" cy="540" r="400" fill="url(#inkWash)" opacity="0.3" />
+
+  <!-- 水墨纹理线条 -->
+  <path d="M0,540 Q270,480 540,540 T1080,540" stroke="#9CA3AF" stroke-width="2" fill="none" opacity="0.3" />
+  <path d="M540,0 Q480,270 540,540 T540,1080" stroke="#9CA3AF" stroke-width="2" fill="none" opacity="0.3" />
+
+  <!-- 核心元素：破旧公文包 -->
+  <g transform="translate(340, 380)">
+    <!-- 公文包主体 -->
+    <rect x="100" y="150" width="200" height="140" rx="10" ry="10"
+          fill="#4B5563" stroke="#374151" stroke-width="3" opacity="0.9" />
+
+    <!-- 公文包盖 -->
+    <rect x="100" y="120" width="200" height="40" rx="10" ry="10"
+          fill="#6B7280" stroke="#374151" stroke-width="3" opacity="0.9" />
+
+    <!-- 提手 -->
+    <path d="M160,120 Q160,70 200,70 Q240,70 240,120"
+          stroke="#374151" stroke-width="8" fill="none" stroke-linecap="round" />
+
+    <!-- 公文包细节线条 -->
+    <line x1="100" y1="180" x2="300" y2="180" stroke="#374151" stroke-width="2" opacity="0.5" />
+    <line x1="100" y1="240" x2="300" y2="240" stroke="#374151" stroke-width="2" opacity="0.5" />
+
+    <!-- 磨损效果 -->
+    <circle cx="130" cy="200" r="3" fill="#1F2937" opacity="0.4" />
+    <circle cx="270" cy="230" r="4" fill="#1F2937" opacity="0.4" />
+    <circle cx="250" cy="160" r="2" fill="#1F2937" opacity="0.4" />
+  </g>
+
+  <!-- 核心元素：双脚（行走中） -->
+  <g transform="translate(440, 620)">
+    <!-- 左脚 -->
+    <g transform="rotate(-15, 50, 50)">
+      <ellipse cx="50" cy="60" rx="25" ry="12" fill="#4B5563" opacity="0.9" />
+      <path d="M50,60 L50,10" stroke="#374151" stroke-width="10" stroke-linecap="round" />
+    </g>
+
+    <!-- 右脚 -->
+    <g transform="rotate(15, 150, 50)">
+      <ellipse cx="150" cy="60" rx="25" ry="12" fill="#6B7280" opacity="0.9" />
+      <path d="M150,60 L150,10" stroke="#4B5563" stroke-width="10" stroke-linecap="round" />
+    </g>
+  </g>
+
+  <!-- 步伐虚线（表示行走的轨迹） -->
+  <g opacity="0.4">
+    <line x1="300" y1="700" x2="500" y2="700" stroke="#9CA3AF" stroke-width="3" stroke-dasharray="10,10" />
+    <line x1="580" y1="700" x2="780" y2="700" stroke="#9CA3AF" stroke-width="3" stroke-dasharray="10,10" />
+  </g>
+
+  <!-- 左上角朱砂红印章 -->
+  <g transform="translate(80, 80)">
+    <!-- 印章边框 -->
+    <rect x="0" y="0" width="120" height="120" rx="8" ry="8"
+          fill="url(#sealRed)" stroke="#991B1B" stroke-width="3" />
+
+    <!-- 印章内边框 -->
+    <rect x="10" y="10" width="100" height="100" rx="4" ry="4"
+          fill="none" stroke="#FCA5A5" stroke-width="2" opacity="0.6" />
+
+    <!-- 印章文字：初级 -->
+    <text x="60" y="55" font-family="'Noto Serif SC', serif" font-size="36"
+          font-weight="bold" fill="#FEF2F2" text-anchor="middle" dominant-baseline="middle">
+      初级
+    </text>
+
+    <!-- 印章装饰点 -->
+    <circle cx="20" cy="20" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="100" cy="20" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="20" cy="100" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="100" cy="100" r="3" fill="#FEF2F2" opacity="0.8" />
+  </g>
+
+  <!-- 右下角半透明"证道"水印 -->
+  <g transform="translate(830, 830)" opacity="0.25">
+    <text x="125" y="70" font-family="'Noto Serif SC', serif" font-size="80"
+          font-weight="bold" fill="#1F2937" text-anchor="middle" writing-mode="tb">
+      证道
+    </text>
+
+    <!-- 水印边框 -->
+    <rect x="10" y="10" width="230" height="120" rx="5" ry="5"
+          fill="none" stroke="#1F2937" stroke-width="3" />
+  </g>
+
+  <!-- 等级标识 -->
+  <g transform="translate(540, 950)">
+    <text x="0" y="0" font-family="'Noto Serif SC', serif" font-size="48"
+          font-weight="bold" fill="#374151" text-anchor="middle">
+      LEVEL 1
+    </text>
+    <text x="0" y="50" font-family="'Noto Serif SC', serif" font-size="32"
+          fill="#6B7280" text-anchor="middle">
+      11路奋斗者
+    </text>
+  </g>
+
+  <!-- 外边框 -->
+  <rect x="10" y="10" width="1060" height="1060" rx="20" ry="20"
+        fill="none" stroke="#4B5563" stroke-width="5" opacity="0.6" />
+</svg>

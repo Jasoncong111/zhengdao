@@ -1,0 +1,173 @@
+/**
+ * CalendarStats - 自定义日历样式
+ *
+ * 覆盖 react-calendar 的默认样式
+ * 使用证道的设计系统
+ */
+
+/* 日历容器 */
+.react-calendar {
+  width: 100%;
+  background: white;
+  border: 2px solid #000000;
+  font-family: 'Georgia', serif;
+  padding: 1rem;
+}
+
+/* 导航区域 */
+.react-calendar__navigation {
+  display: flex;
+  height: 44px;
+  margin-bottom: 1rem;
+}
+
+.react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+  font-size: 16px;
+  color: #000000;
+  font-family: 'Georgia', serif;
+  font-weight: bold;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: rgba(212, 54, 40, 0.1);
+}
+
+.react-calendar__navigation button[disabled] {
+  opacity: 0.3;
+}
+
+/* 月份视图 */
+.react-calendar__view_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.react-calendar__monthView {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 星期标题 */
+.react-calendar__monthView__weekdays {
+  display: flex;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.75em;
+  margin-bottom: 0.5rem;
+}
+
+.react-calendar__monthView__weekdays__weekday {
+  flex: 1;
+  padding: 0.5rem 0;
+  color: #666666;
+}
+
+/* 日期格子 */
+.react-calendar__monthView__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.react-calendar__monthView__days__day {
+  position: relative;
+  min-height: 44px;
+  padding: 0.5rem;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  font-size: 14px;
+  color: #000000;
+}
+
+.react-calendar__monthView__days__day:hover {
+  background-color: rgba(212, 54, 40, 0.1);
+}
+
+/* 当前月份的日期 */
+.react-calendar__monthView__days__day--neighboringMonth {
+  color: #cccccc;
+  background: #f5f5f5;
+}
+
+/* 已打卡 - 有意义 */
+.react-calendar__monthView__days__day--meaningful {
+  background: rgba(212, 54, 40, 0.15);
+  border: 2px solid #D43628;
+}
+
+.react-calendar__monthView__days__day--meaningful::after {
+  content: '✓';
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 10px;
+  color: #D43628;
+}
+
+/* 已打卡 - 无意义 */
+.react-calendar__monthView__days__day--not-meaningful {
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px solid #999999;
+}
+
+.react-calendar__monthView__days__day--not-meaningful::after {
+  content: '•';
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 10px;
+  color: #999999;
+}
+
+/* 周末 */
+.react-calendar__monthView__days__day--weekend {
+  color: #D43628;
+}
+
+/* 选择状态（虽然我们禁用了选择，但保留样式） */
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: rgba(212, 54, 40, 0.1);
+}
+
+.react-calendar__tile--active {
+  background: #D43628;
+  color: white;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #B02D20;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+  .react-calendar {
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+
+  .react-calendar__navigation button {
+    min-width: 36px;
+    font-size: 14px;
+  }
+
+  .react-calendar__monthView__weekdays__weekday {
+    font-size: 0.7em;
+    padding: 0.25rem 0;
+  }
+
+  .react-calendar__monthView__days__day {
+    min-height: 36px;
+    padding: 0.25rem;
+    font-size: 12px;
+  }
+}

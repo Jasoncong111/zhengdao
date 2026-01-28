@@ -7,7 +7,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ReflectionService, MonthlyStats } from '@/lib/storage';
+import { ReflectionService } from '@/lib/storage';
+import { MonthlyStats } from '@/lib/db';
 import { generateMonthlyInsights } from '@/lib/deepseek';
 
 interface MonthlyReportProps {
@@ -155,7 +156,6 @@ export function MonthlyReport({ walletAddress, year, month }: MonthlyReportProps
           <ul className="space-y-2">
             {stats.allGains.slice(0, 5).map((gain, index) => (
               <li key={index} className="flex items-start gap-2">
-                <span className="text-[#D43628] text-xl mt-[-2px]">✓</span>
                 <span className="text-black">{gain}</span>
               </li>
             ))}

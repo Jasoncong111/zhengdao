@@ -34,7 +34,6 @@ export function ReflectionQuestion({ onAnswer }: ReflectionQuestionProps) {
           onClick={() => onAnswer(true)}
           className="flex-1 max-w-[160px] bg-[#D43628] text-white px-8 py-6 text-xl font-bold border-2 border-black hover:bg-[#B82E20] transition-colors"
         >
-          <div className="mb-2 text-3xl">✓</div>
           <div>有</div>
         </motion.button>
 
@@ -45,7 +44,6 @@ export function ReflectionQuestion({ onAnswer }: ReflectionQuestionProps) {
           onClick={() => onAnswer(false)}
           className="flex-1 max-w-[160px] bg-white text-black px-8 py-6 text-xl font-bold border-2 border-black hover:bg-gray-100 transition-colors"
         >
-          <div className="mb-2 text-3xl">✗</div>
           <div>无</div>
         </motion.button>
       </div>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>证道 - Logo展示预览（方案A：极简居中型）</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #FFFEF2 0%, #FFF9E6 100%);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 430px;
+      margin: 0 auto;
+      background: #FFFEF2;
+      min-height: 100vh;
+    }
+
+    /* Brand Logo Container */
+    .brand-logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem 1.5rem;
+      text-align: center;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-wrapper {
+      margin-bottom: 1rem;
+    }
+
+    .logo-image {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: breathe 3s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.02);
+      }
+    }
+
+    .logo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #FFFEF2;
+      font-weight: bold;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .brand-title {
+      font-family: 'Georgia', serif;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #000000;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: 0.1em;
+      animation: fadeIn 0.8s ease-out 0.3s both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .brand-subtitle {
+      font-family: 'Georgia', serif;
+      font-size: 1rem;
+      color: #666666;
+      margin: 0 0 1rem 0;
+      letter-spacing: 0.05em;
+      font-weight: 300;
+      animation: fadeIn 0.8s ease-out 0.5s both;
+    }
+
+    .brand-divider {
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, transparent, #D43628, transparent);
+      margin: 0.5rem auto 0;
+      animation: expandLine 0.6s ease-out 0.7s both;
+    }
+
+    @keyframes expandLine {
+      from {
+        width: 0;
+      }
+      to {
+        width: 60px;
+      }
+    }
+
+    /* Content Area */
+    .content-area {
+      padding: 1rem 1.5rem;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .header-subtitle {
+      font-size: 0.75rem;
+      color: #666666;
+      margin-top: 0.25rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+      border: 2px solid #000000;
+      color: #000000;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      font-family: 'Georgia', serif;
+    }
+
+    .nav-btn:hover {
+      background: #000000;
+      color: #FFFEF2;
+    }
+
+    .demo-badge {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+      background: white;
+      border: 2px solid #D43628;
+      color: #D43628;
+      font-family: 'Georgia', serif;
+    }
+
+    /* Feature Card */
+    .feature-card {
+      background: white;
+      border: 2px solid #000000;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #000000;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-desc {
+      font-size: 0.875rem;
+      color: #666666;
+      line-height: 1.6;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .brand-logo-container {
+        padding: 1.5rem 1rem 1rem;
+      }
+
+      .logo-image {
+        width: 100px;
+        height: 100px;
+      }
+
+      .brand-title {
+        font-size: 2rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.875rem;
+      }
+
+      .logo-placeholder {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 375px) {
+      .logo-image {
+        width: 80px;
+        height: 80px;
+      }
+
+      .brand-title {
+        font-size: 1.75rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.75rem;
+      }
+
+      .logo-placeholder {
+        font-size: 2rem;
+      }
+
+      .nav-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .nav-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    /* Info Box */
+    .info-box {
+      background: rgba(212, 54, 40, 0.1);
+      border: 2px solid #D43628;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-radius: 8px;
+    }
+
+    .info-title {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #D43628;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-text {
+      font-size: 0.875rem;
+      color: #666666;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Brand Logo Section -->
+    <div class="brand-logo-container">
+      <div class="logo-wrapper">
+        <div class="logo-image">
+          <div class="logo-placeholder">证</div>
+        </div>
+      </div>
+
+      <h1 class="brand-title">证道</h1>
+      <p class="brand-subtitle">修身 · 齐家 · 证道</p>
+      <div class="brand-divider"></div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <!-- Header -->
+      <div class="header">
+        <div>
+          <div class="header-title">证道</div>
+          <div class="header-subtitle">修身 · 齐家 · 证道</div>
+        </div>
+        <div class="nav-buttons">
+          <span class="demo-badge">体验模式</span>
+          <a href="#" class="nav-btn">每日打卡</a>
+          <a href="#" class="nav-btn">周期复盘</a>
+          <a href="#" class="nav-btn">成就系统</a>
+        </div>
+      </div>
+
+      <!-- Feature Card -->
+      <div class="feature-card">
+        <div class="feature-title">✨ 方案A：极简居中型</div>
+        <p class="feature-desc">
+          Logo和项目名称居中展示于屏幕上半部分，视觉重心高度集中。
+          采用水墨风格配色，配合微妙的呼吸动画效果，建立深刻的品牌印象。
+        </p>
+      </div>
+
+      <!-- Info Box -->
+      <div class="info-box">
+        <div class="info-title">🎨 设计特点</div>
+        <div class="info-text">
+          <strong>位置：</strong>屏幕上半部分居中<br>
+          <strong>动画：</strong>淡入 + 轻微呼吸效果<br>
+          <strong>配色：</strong>墨黑 + 朱砂红 + 纸白<br>
+          <strong>字体：</strong>Georgia衬线字体，文化感强<br>
+          <strong>响应式：</strong>适配所有移动设备尺寸
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 添加交互提示
+    console.log('证道 Logo 预览 - 方案A：极简居中型');
+    console.log('设计要点：');
+    console.log('1. Logo居中展示在视觉重心区域（屏幕上半部分）');
+    console.log('2. 呼吸动画增强视觉吸引力');
+    console.log('3. 水墨风格配色保持品牌一致性');
+    console.log('4. 响应式设计适配各种移动设备');
+  </script>
+</body>
+</html>

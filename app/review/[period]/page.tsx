@@ -1,0 +1,270 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { useAccount } from 'wagmi';
+import {
+  PeriodSelector,
+  StatsSummary,
+  AIReviewSummary,
+  GoalComparison,
+  ProblemAnalysis,
+  MonthlyBarChart,
+} from '@/components/review';
+import { CalendarStats } from '@/components/review/CalendarStats';
+import {
+  YesNoRatioChart,
+  CheckInTrendChart,
+  MeaningfulDaysTrend,
+} from '@/components/charts';
+import {
+  getReviewStats,
+  generateAIReviewSummary,
+  getGoalComparisonData,
+  generateGoalComparisonAnalysis,
+  analyzeProblemMonths,
+  generateProblemAnalysis,
+} from '@/lib/review-service';
+import { aggregateMeaningfulDays } from '@/lib/chart-utils';
+
+type PeriodType = '7d' | '30d' | '6m' | '1y';
+
+export default function ReviewPeriodPage() {
+  const { address } = useAccount();
+  const params = useParams();
+  const period = (params.period as PeriodType) || '7d';
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [stats, setStats] = useState<any>(null);
+  const [aiSummary, setAiSummary] = useState('');
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  // 年度复盘专用状态
+  const [goalData, setGoalData] = useState<any>(null);
+  const [goalAnalysis, setGoalAnalysis] = useState('');
+  const [problemAnalysis, setProblemAnalysis] = useState('');
+  const [isYearlyAnalysisLoading, setIsYearlyAnalysisLoading] = useState(false);
+
+  // 加载基础统计数据
+  useEffect(() => {
+    async function loadStats() {
+      if (!address) return;
+
+      setIsLoading(true);
+      try {
+        const reviewStats = await getReviewStats(period, address);
+        setStats(reviewStats);
+
+        // 生成AI总结
+        setIsAiLoading(true);
+        const summary = await generateAIReviewSummary(period, reviewStats);
+        setAiSummary(summary);
+        setIsAiLoading(false);
+      } catch (error) {
+        console.error('加载复盘数据失败:', error);
+        setIsAiLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadStats();
+  }, [period, address]);
+
+  // 加载年度复盘专用数据
+  useEffect(() => {
+    async function loadYearlyData() {
+      if (period !== '1y' || !address) return;
+
+      setIsYearlyAnalysisLoading(true);
+      try {
+        const comparisonData = await getGoalComparisonData(address);
+        setGoalData(comparisonData);
+
+        // 生成目标对比分析
+        const goalAnalysisText = await generateGoalComparisonAnalysis(comparisonData);
+        setGoalAnalysis(goalAnalysisText);
+
+        // 分析问题月份
+        const problemMonths = analyzeProblemMonths(comparisonData.monthlyData);
+        const problemAnalysisText = await generateProblemAnalysis(problemMonths);
+        setProblemAnalysis(problemAnalysisText);
+      } catch (error) {
+        console.error('加载年度复盘数据失败:', error);
+      } finally {
+        setIsYearlyAnalysisLoading(false);
+      }
+    }
+
+    loadYearlyData();
+  }, [period, address]);
+
+  // 生成图表数据
+  const generateChartData = () => {
+    if (!stats) return null;
+
+    // 是/否比例图数据
+    const yesNoData = { yes: stats.yesDays, no: stats.noDays };
+
+    // 有意义天数趋势数据
+    const trendData = aggregateMeaningfulDays(
+      // 这里需要传入完整的打卡数据，暂时使用mock数据
+      [],
+      period === '6m' || period === '1y' ? 'month' : 'week'
+    );
+
+    return { yesNoData, trendData };
+  };
+
+  const chartData = generateChartData();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#FFFEF2] p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center h-96">
+            <div className="text-center">
+              <motion.div
+                className="w-16 h-16 border-4 border-black/20 border-t-[#D43628] rounded-full mx-auto mb-4"
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+              />
+              <p className="text-black/60" style={{ fontFamily: 'Georgia, serif' }}>
+                加载复盘数据...
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const periodLabel: Record<string, string> = {
+    '7d': '7日复盘',
+    '30d': '30日复盘',
+    '6m': '半年复盘',
+    '1y': '年度复盘',
+  };
+
+  return (
+    <div className="min-h-screen bg-[#FFFEF2] p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* 页面标题 */}
+        <motion.div
+          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-4xl font-bold text-black mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            {periodLabel[period]}
+          </h1>
+          <p className="text-black/60" style={{ fontFamily: 'Georgia, serif' }}>
+            回顾过去，展望未来
+          </p>
+        </motion.div>
+
+        {/* 周期选择器 */}
+        <PeriodSelector currentPeriod={period} />
+
+        {/* 内容网格 */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* 统计摘要 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            {stats && <StatsSummary {...stats} />}
+          </motion.div>
+
+          {/* 是/否比例图 */}
+          {chartData && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <YesNoRatioChart data={chartData.yesNoData} period={period} />
+            </motion.div>
+          )}
+
+          {/* 日历视图 / 月度柱状图 */}
+          {stats && stats.dailyData && (
+            <motion.div
+              className="lg:col-span-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+            >
+              {period === '1y' ? (
+                <MonthlyBarChart checkInData={stats.dailyData} />
+              ) : (
+                <CalendarStats period={period} checkInData={stats.dailyData} />
+              )}
+            </motion.div>
+          )}
+
+          {/* AI复盘总结 */}
+          <motion.div
+            className="lg:col-span-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <AIReviewSummary summary={aiSummary} isLoading={isAiLoading} />
+          </motion.div>
+
+          {/* 年度复盘专用：目标对比 */}
+          {period === '1y' && goalData && (
+            <motion.div
+              className="lg:col-span-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              {goalData && (
+                <GoalComparison
+                  goals={goalData.goals}
+                  yearlyStats={goalData.yearlyStats}
+                  analysis={goalAnalysis}
+                  isLoading={isYearlyAnalysisLoading}
+                />
+              )}
+            </motion.div>
+          )}
+
+          {/* 年度复盘专用：问题分析 */}
+          {period === '1y' && (
+            <motion.div
+              className="lg:col-span-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              <ProblemAnalysis
+                problemMonths={analyzeProblemMonths(goalData?.monthlyData || [])}
+                analysis={problemAnalysis}
+                isLoading={isYearlyAnalysisLoading}
+              />
+            </motion.div>
+          )}
+        </div>
+
+        {/* 提示信息 */}
+        <motion.div
+          className="mt-8 p-4 bg-black/5 border-2 border-black/20 text-center"
+          style={{ borderRadius: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+        >
+          <p className="text-sm text-black/70" style={{ fontFamily: 'Georgia, serif' }}>
+            坚持打卡，让每一天都更有意义。复盘不是为了自责，而是为了成长。
+          </p>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

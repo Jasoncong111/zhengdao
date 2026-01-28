@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <!-- 蓝色渐变背景 -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60A5FA;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 电流水墨效果 -->
+    <radialGradient id="electricWash" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#2563EB;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- 朱砂红印章渐变 -->
+    <linearGradient id="sealRed3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B91C1C;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 电动摩托渐变 -->
+    <linearGradient id="ebikeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E40AF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E3A8A;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 闪电渐变 -->
+    <linearGradient id="lightningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FEF08A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FDE047;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 发光滤镜 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景渐变 -->
+  <rect width="1080" height="1080" fill="url(#blueGradient)" />
+
+  <!-- 电流水墨晕染 -->
+  <ellipse cx="540" cy="400" rx="400" ry="280" fill="url(#electricWash)" opacity="0.6" />
+  <ellipse cx="150" cy="800" rx="300" ry="200" fill="url(#electricWash)" opacity="0.5" />
+  <ellipse cx="930" cy="200" rx="250" ry="180" fill="url(#electricWash)" opacity="0.4" />
+
+  <!-- 电流线条装饰 -->
+  <g opacity="0.3" stroke="#DBEAFE" stroke-width="2" fill="none">
+    <path d="M100,100 L120,120 L110,140 L140,160" />
+    <path d="M980,900 L960,880 L970,860 L940,840" />
+    <path d="M50,540 L80,530 L70,560 L100,550" />
+    <path d="M1030,540 L1000,530 L1010,560 L980,550" />
+  </g>
+
+  <!-- 核心元素：电动摩托 -->
+  <g transform="translate(240, 450)">
+    <!-- 后轮 -->
+    <circle cx="120" cy="220" r="75" fill="none" stroke="#1F2937" stroke-width="10" />
+    <circle cx="120" cy="220" r="55" fill="none" stroke="#1E40AF" stroke-width="4" />
+    <circle cx="120" cy="220" r="18" fill="#1E40AF" />
+
+    <!-- 前轮 -->
+    <circle cx="480" cy="220" r="75" fill="none" stroke="#1F2937" stroke-width="10" />
+    <circle cx="480" cy="220" r="55" fill="none" stroke="#1E40AF" stroke-width="4" />
+    <circle cx="480" cy="220" r="18" fill="#1E40AF" />
+
+    <!-- 车身主体 -->
+    <path d="M120,220 Q180,100 300,90 L380,90 Q450,100 480,220"
+          stroke="#1E3A8A" stroke-width="12" fill="none" stroke-linejoin="round" />
+
+    <!-- 电池组（侧面） -->
+    <rect x="220" y="130" width="140" height="60" rx="10"
+          fill="url(#ebikeGradient)" stroke="#1E40AF" stroke-width="3" />
+    <rect x="230" y="140" width="30" height="40" rx="3" fill="#60A5FA" opacity="0.5" />
+    <rect x="270" y="140" width="30" height="40" rx="3" fill="#60A5FA" opacity="0.5" />
+    <rect x="310" y="140" width="30" height="40" rx="3" fill="#60A5FA" opacity="0.5" />
+
+    <!-- 车座 -->
+    <ellipse cx="280" cy="75" rx="60" ry="18" fill="#1F2937" stroke="#0F172A" stroke-width="3" />
+
+    <!-- 车头 -->
+    <path d="M450,130 L480,130 L490,180 L440,180 Z" fill="#1E3A8A" stroke="#1E40AF" stroke-width="3" />
+
+    <!-- 车把 -->
+    <path d="M455,110 L455,130" stroke="#374151" stroke-width="8" />
+    <path d="M435,100 L475,100" stroke="#374151" stroke-width="8" stroke-linecap="round" />
+
+    <!-- 仪表盘（发光） -->
+    <circle cx="470" cy="150" r="12" fill="#BFDBFE" filter="url(#glow)" opacity="0.8" />
+
+    <!-- 后视镜 -->
+    <ellipse cx="420" cy="105" rx="12" ry="8" fill="#1F2937" stroke="#0F172A" stroke-width="2" />
+
+    <!-- 尾灯 -->
+    <rect x="105" y="110" width="20" height="30" rx="3" fill="#EF4444" opacity="0.9" />
+  </g>
+
+  <!-- 闪电特效（表示电动） -->
+  <g transform="translate(700, 480)" filter="url(#glow)">
+    <path d="M50,0 L20,40 L45,40 L30,80 L70,30 L45,30 Z"
+          fill="url(#lightningGrad)" stroke="#FACC15" stroke-width="2" />
+  </g>
+
+  <g transform="translate(300, 380)" opacity="0.6" filter="url(#glow)">
+    <path d="M30,0 L10,25 L25,25 L15,50 L40,20 L25,20 Z"
+          fill="url(#lightningGrad)" stroke="#FACC15" stroke-width="1.5" />
+  </g>
+
+  <!-- 速度线 -->
+  <g opacity="0.3">
+    <path d="M150,750 L250,750" stroke="#DBEAFE" stroke-width="3" stroke-dasharray="20,10" />
+    <path d="M130,780 L260,780" stroke="#DBEAFE" stroke-width="2" stroke-dasharray="15,8" />
+    <path d="M140,810 L240,810" stroke="#DBEAFE" stroke-width="2" stroke-dasharray="18,9" />
+  </g>
+
+  <!-- 左上角朱砂红印章 -->
+  <g transform="translate(80, 80)">
+    <rect x="0" y="0" width="120" height="120" rx="8" ry="8"
+          fill="url(#sealRed3)" stroke="#991B1B" stroke-width="3" />
+    <rect x="10" y="10" width="100" height="100" rx="4" ry="4"
+          fill="none" stroke="#FCA5A5" stroke-width="2" opacity="0.6" />
+
+    <text x="60" y="55" font-family="'Noto Serif SC', serif" font-size="36"
+          font-weight="bold" fill="#FEF2F2" text-anchor="middle" dominant-baseline="middle">
+      中级
+    </text>
+
+    <circle cx="20" cy="20" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="100" cy="20" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="20" cy="100" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="100" cy="100" r="3" fill="#FEF2F2" opacity="0.8" />
+  </g>
+
+  <!-- 右下角半透明"证道"水印 -->
+  <g transform="translate(830, 830)" opacity="0.25">
+    <text x="125" y="70" font-family="'Noto Serif SC', serif" font-size="80"
+          font-weight="bold" fill="#1E3A8A" text-anchor="middle" writing-mode="tb">
+      证道
+    </text>
+    <rect x="10" y="10" width="230" height="120" rx="5" ry="5"
+          fill="none" stroke="#1E3A8A" stroke-width="3" />
+  </g>
+
+  <!-- 等级标识 -->
+  <g transform="translate(540, 950)">
+    <text x="0" y="0" font-family="'Noto Serif SC', serif" font-size="48"
+          font-weight="bold" fill="#1E40AF" text-anchor="middle">
+      LEVEL 3
+    </text>
+    <text x="0" y="50" font-family="'Noto Serif SC', serif" font-size="32"
+          fill="#2563EB" text-anchor="middle">
+      电掣游侠
+    </text>
+  </g>
+
+  <!-- 外边框 -->
+  <rect x="10" y="10" width="1060" height="1060" rx="20" ry="20"
+        fill="none" stroke="#2563EB" stroke-width="5" opacity="0.6" />
+</svg>

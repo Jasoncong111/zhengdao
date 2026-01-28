@@ -1,10 +1,13 @@
 /**
  * Demo 数据生成脚本
  * 用于生成模拟复盘数据，方便演示和测试
+ * 同时包含游客模式预设的个人主页数据
  */
 
 import { ReflectionService } from './storage';
 import type { Reflection } from './db';
+import type { ProfileData } from './profile-service';
+import type { LifeGoal } from './db';
 
 /**
  * Demo 模板数据
@@ -177,3 +180,118 @@ export async function shouldGenerateDemoData(walletAddress: string): Promise<boo
   const allReflections = await ReflectionService.getAllReflections(walletAddress);
   return !hasReflected && allReflections.length === 0;
 }
+
+// ============================================================================
+// 游客模式预设数据
+// ============================================================================
+
+/**
+ * 演示用户的人生目标
+ */
+export const demoLifeGoal: LifeGoal = {
+  walletAddress: '0x0000000000000000000000000000000000000000',
+  wealthGoals: {
+    monthlyIncome: '月收入5万元',
+    savings: '存款达到100万',
+    investmentReturn: '年化收益率15%',
+  },
+  healthGoals: {
+    exerciseFrequency: '每周健身4次',
+    weightManagement: '体重保持在70kg',
+    sleepQuality: '每天保证7小时睡眠',
+  },
+  familyGoals: {
+    familyTime: '每周至少2次家庭聚餐',
+    parentChildRelationship: '每月一次亲子旅行',
+    partnerRelationship: '每周一次约会之夜',
+  },
+  otherGoals: {
+    learningGoals: ['学习Python编程', '阅读50本书', '掌握短视频剪辑'],
+    socialGoals: ['参加10场行业会议', '建立100+人脉网络'],
+    hobbies: ['摄影', '吉他', '登山'],
+  },
+  createdAt: new Date('2025-01-01'),
+  updatedAt: new Date('2025-01-01'),
+};
+
+/**
+ * 生成演示打卡记录
+ */
+function generateStaticDemoReflections(count: number): Reflection[] {
+  const reflections: Reflection[] = [];
+  const today = new Date();
+
+  for (let i = 0; i < count; i++) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+
+    const isMeaningful = Math.random() > 0.25; // 75%有意义
+
+    reflections.push({
+      date: date.toISOString().split('T')[0],
+      isMeaningful,
+      rawContent: generateRawContent(i, isMeaningful),
+      structuredData: {
+        gains: isMeaningful
+          ? ['完成了重要的项目里程碑', '学习了新技术', '锻炼身体保持健康']
+          : ['日常工作', '处理邮件'],
+        losses: isMeaningful
+          ? ['时间管理需要改进', '会议时间过长']
+          : ['拖延了一些任务', '看手机时间过长'],
+        ideas: isMeaningful
+          ? ['可以尝试新的工作方法', '优化代码结构']
+          : [],
+        emotion: isMeaningful ? '积极' : '平静',
+        keywords: isMeaningful ? ['成长', '效率', '健康'] : ['日常'],
+      },
+      walletAddress: '0x0000000000000000000000000000000000000000',
+      createdAt: date,
+      updatedAt: date,
+    });
+  }
+
+  return reflections;
+}
+
+/**
+ * 生成演示原始内容
+ */
+function generateRawContent(dayIndex: number, isMeaningful: boolean): string {
+  if (isMeaningful) {
+    return `今天是非常有意义的一天！第${58 - dayIndex}天的打卡。
+
+主要收获：
+1. 完成了项目中的重要功能开发
+2. 和团队进行了有效的技术讨论
+3. 坚持锻炼，保持身体健康
+
+反思：
+- 时间管理还可以做得更好
+- 需要减少无效会议的时间
+
+明天的计划：
+- 继续推进核心功能开发
+- 优化代码结构
+- 保持运动习惯`;
+  } else {
+    return `今天是比较普通的一天。处理了一些日常工作，回复邮件，参加会议。虽然没有特别突出的成果，但也保持了稳定的工作节奏。明天继续加油！`;
+  }
+}
+
+/**
+ * 演示打卡记录（最近58天）
+ */
+export const demoReflections: Reflection[] = generateStaticDemoReflections(58).reverse();
+
+/**
+ * 演示个人主页数据
+ * 用于游客模式展示完整的个人主页
+ */
+export const demoProfileData: ProfileData = {
+  goals: demoLifeGoal,
+  recentReflections: demoReflections,
+  totalCheckInDays: 58,
+  meaningfulDays: 45,
+  meaningfulRate: 78,
+  currentStreak: 12,
+};

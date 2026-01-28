@@ -1,0 +1,18 @@
+{
+  "name": "证道之路 - 电掣游侠",
+  "description": "坚持打卡100天，获得电掣游侠称号。速度冲刺，见证质变。",
+  "image": "/sbt-images/level-3/level-3.png",
+  "external_url": "https://zhengdao.app",
+  "attributes": [
+    { "trait_type": "Level", "value": 3 },
+    { "trait_type": "Days", "value": 100 },
+    { "trait_type": "Title", "value": "电掣游侠" },
+    { "trait_type": "Title EN", "value": "RACER" },
+    { "trait_type": "Chain", "value": "BNB Chain" },
+    { "trait_type": "Rarity", "value": "Rare" },
+    { "trait_type": "Color", "value": "Blue" },
+    { "trait_type": "Icon", "value": "ebike" },
+    { "trait_type": "Keywords", "value": "速度、冲刺" },
+    { "trait_type": "Reward Bonus", "value": "+10%" }
+  ]
+}

@@ -185,7 +185,7 @@ export default function PVPDemo() {
                     {user.name}
                   </div>
                   <div className="text-sm text-black/60" style={{ fontFamily: 'Georgia, serif' }}>
-                    {user.isActive ? '✓ 活跃' : '✗ 不活跃'}
+                    {user.isActive ? '活跃' : '不活跃'}
                   </div>
                 </div>
               </div>
@@ -225,8 +225,8 @@ export default function PVPDemo() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
           >
-            <div className="font-bold mb-2" style={{ fontFamily: 'Georgia, serif' }}>
-              ⚠️ PVP 惩罚触发！
+            <div className="font-bold mb-2 text-red-600" style={{ fontFamily: 'Georgia, serif' }}>
+              PVP 惩罚触发！
             </div>
             <div className="text-sm" style={{ fontFamily: 'Georgia, serif' }}>
               用户 C 超过 48 小时未打卡，扣除 100 ETH（10%）
@@ -240,7 +240,7 @@ export default function PVPDemo() {
       {/* 说明 */}
       <div className="p-4 bg-black/5" style={{ borderRadius: 0 }}>
         <p className="text-xs text-black/70" style={{ fontFamily: 'Georgia, serif' }}>
-          💡 规则：每天打卡获得 0.5% 收益。超过 48 小时未打卡将被扣除 10% 本金，奖励给活跃用户。
+          规则：每天打卡获得 0.5% 收益。超过 48 小时未打卡将被扣除 10% 本金，奖励给活跃用户。
         </p>
       </div>
     </motion.div>

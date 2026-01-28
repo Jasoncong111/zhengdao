@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <!-- 红色渐变背景 -->
+    <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EF4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F87171;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 火焰水墨效果 -->
+    <radialGradient id="fireWash" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#EF4444;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- 朱砂红印章渐变 -->
+    <linearGradient id="sealRed5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B91C1C;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 跑车渐变 -->
+    <linearGradient id="sportCarGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#991B1B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7F1D1D;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 火焰渐变 -->
+    <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#FEF3C7;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FCD34D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 发光滤镜 -->
+    <filter id="fireGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景渐变 -->
+  <rect width="1080" height="1080" fill="url(#redGradient)" />
+
+  <!-- 火焰水墨晕染 -->
+  <ellipse cx="540" cy="400" rx="450" ry="300" fill="url(#fireWash)" opacity="0.7" />
+  <ellipse cx="150" cy="850" rx="320" ry="220" fill="url(#fireWash)" opacity="0.6" />
+  <ellipse cx="930" cy="150" rx="280" ry="200" fill="url(#fireWash)" opacity="0.5" />
+
+  <!-- 火焰装饰 -->
+  <g opacity="0.3" filter="url(#fireGlow)">
+    <path d="M100,200 Q120,150 110,100 Q130,120 140,80 Q150,130 160,90 Q155,150 180,180 Q140,200 100,200 Z" fill="#FEF3C7" />
+    <path d="M950,850 Q970,800 960,750 Q980,770 990,730 Q1000,780 1010,740 Q1005,800 1030,830 Q990,850 950,850 Z" fill="#FEF3C7" />
+    <path d="M50,500 Q70,450 60,400 Q80,420 90,380 Q100,430 110,390 Q105,450 130,480 Q90,500 50,500 Z" fill="#FEF3C7" />
+  </g>
+
+  <!-- 核心元素：敞篷跑车 -->
+  <g transform="translate(180, 490)">
+    <!-- 车身主体 - 低矮流线型 -->
+    <path d="M30,140 L30,110 Q30,80 80,70 L650,70 Q700,80 700,110 L700,140 Q700,160 680,160 L50,160 Q30,160 30,140 Z"
+          fill="url(#sportCarGrad)" stroke="#7F1D1D" stroke-width="4" />
+
+    <!-- 敞篷设计（顶部开口） -->
+    <path d="M180,70 Q250,30 450,30 Q550,30 620,70"
+          fill="none" stroke="#7F1D1D" stroke-width="3" stroke-dasharray="8,4" />
+
+    <!-- 前挡风玻璃（低矮） -->
+    <path d="M185,68 Q220,35 320,35 L320,68 Z"
+          fill="#FEE2E2" stroke="#DC2626" stroke-width="2" opacity="0.7" />
+
+    <!-- 后挡风玻璃 -->
+    <path d="M615,68 Q570,35 470,35 L470,68 L615,68 Z"
+          fill="#FEE2E2" stroke="#DC2626" stroke-width="2" opacity="0.7" />
+
+    <!-- 前轮（大轮毂） -->
+    <circle cx="140" cy="160" r="50" fill="#1F2937" stroke="#111827" stroke-width="7" />
+    <circle cx="140" cy="160" r="35" fill="#374151" />
+    <circle cx="140" cy="160" r="15" fill="#6B7280" />
+    <!-- 轮毂装饰 -->
+    <circle cx="140" cy="160" r="25" fill="none" stroke="#7F1D1D" stroke-width="3" />
+
+    <!-- 后轮（大轮毂） -->
+    <circle cx="590" cy="160" r="50" fill="#1F2937" stroke="#111827" stroke-width="7" />
+    <circle cx="590" cy="160" r="35" fill="#374151" />
+    <circle cx="590" cy="160" r="15" fill="#6B7280" />
+    <!-- 轮毂装饰 -->
+    <circle cx="590" cy="160" r="25" fill="none" stroke="#7F1D1D" stroke-width="3" />
+
+    <!-- 空气动力学套件 - 前唇 -->
+    <path d="M25,140 L30,155 L700,155 L705,140" fill="#7F1D1D" />
+
+    <!-- 尾翼 -->
+    <rect x="15" y="50" width="80" height="15" rx="3" fill="#7F1D1D" />
+    <rect x="20" y="55" width="15" height="15" fill="#991B1B" />
+    <rect x="60" y="55" width="15" height="15" fill="#991B1B" />
+
+    <!-- 车灯 - 狭长LED -->
+    <rect x="690" y="95" width="15" height="25" rx="2" fill="#FEF3C7" opacity="0.95" />
+    <rect x="15" y="95" width="15" height="25" rx="2" fill="#FCA5A5" opacity="0.95" />
+
+    <!-- 侧进气口 -->
+    <rect x="250" y="120" width="80" height="25" rx="5" fill="#1F2937" />
+    <rect x="400" y="120" width="80" height="25" rx="5" fill="#1F2937" />
+
+    <!-- 后视镜 -->
+    <ellipse cx="175" cy="65" rx="12" ry="8" fill="#7F1D1D" stroke="#991B1B" stroke-width="2" />
+
+    <!-- 双排气管 -->
+    <ellipse cx="45" cy="145" rx="8" ry="6" fill="#1F2937" stroke="#111827" stroke-width="2" />
+    <ellipse cx="65" cy="145" rx="8" ry="6" fill="#1F2937" stroke="#111827" stroke-width="2" />
+  </g>
+
+  <!-- 火焰尾迹（表示速度） -->
+  <g filter="url(#fireGlow)" opacity="0.8">
+    <path d="M150,750 Q170,720 160,690 Q180,710 190,670 Q200,720 220,750 Q180,770 150,750 Z" fill="url(#flameGrad)" />
+    <path d="M200,780 Q220,750 210,720 Q230,740 240,700 Q250,750 270,780 Q230,800 200,780 Z" fill="url(#flameGrad)" opacity="0.7" />
+  </g>
+
+  <!-- 速度线 -->
+  <g opacity="0.4">
+    <path d="M300,800 L900,800" stroke="#FEF2F2" stroke-width="3" stroke-dasharray="25,12" />
+    <path d="M280,830 L920,830" stroke="#FEF2F2" stroke-width="2" stroke-dasharray="20,10" />
+  </g>
+
+  <!-- 左上角朱砂红印章 -->
+  <g transform="translate(80, 80)">
+    <rect x="0" y="0" width="120" height="120" rx="8" ry="8"
+          fill="url(#sealRed5)" stroke="#991B1B" stroke-width="3" />
+    <rect x="10" y="10" width="100" height="100" rx="4" ry="4"
+          fill="none" stroke="#FCA5A5" stroke-width="2" opacity="0.6" />
+
+    <text x="60" y="55" font-family="'Noto Serif SC', serif" font-size="36"
+          font-weight="bold" fill="#FEF2F2" text-anchor="middle" dominant-baseline="middle">
+      特级
+    </text>
+
+    <circle cx="20" cy="20" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="100" cy="20" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="20" cy="100" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="100" cy="100" r="3" fill="#FEF2F2" opacity="0.8" />
+  </g>
+
+  <!-- 右下角半透明"证道"水印 -->
+  <g transform="translate(830, 830)" opacity="0.25">
+    <text x="125" y="70" font-family="'Noto Serif SC', serif" font-size="80"
+          font-weight="bold" fill="#7F1D1D" text-anchor="middle" writing-mode="tb">
+      证道
+    </text>
+    <rect x="10" y="10" width="230" height="120" rx="5" ry="5"
+          fill="none" stroke="#7F1D1D" stroke-width="3" />
+  </g>
+
+  <!-- 等级标识 -->
+  <g transform="translate(540, 950)">
+    <text x="0" y="0" font-family="'Noto Serif SC', serif" font-size="48"
+          font-weight="bold" fill="#991B1B" text-anchor="middle">
+      LEVEL 5
+    </text>
+    <text x="0" y="50" font-family="'Noto Serif SC', serif" font-size="32"
+          fill="#DC2626" text-anchor="middle">
+      超跑绅士
+    </text>
+  </g>
+
+  <!-- 外边框 -->
+  <rect x="10" y="10" width="1060" height="1060" rx="20" ry="20"
+        fill="none" stroke="#DC2626" stroke-width="5" opacity="0.6" />
+</svg>

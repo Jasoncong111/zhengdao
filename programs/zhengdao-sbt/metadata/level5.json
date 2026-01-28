@@ -1,0 +1,51 @@
+{
+  "name": "证道 · 宗师",
+  "symbol": "ZHENGD",
+  "description": "修行三百六十五日，宗师境界。道法自然，天人合一，虚实相生，洞察天地之理，德行高尚，为世人所敬。",
+  "image": "https://gateway.arweave.net/tx-id-placeholder-level5",
+  "animation_url": null,
+  "external_url": "https://zhengdao.io/sbt/level5",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 5
+    },
+    {
+      "trait_type": "Title",
+      "value": "宗师"
+    },
+    {
+      "trait_type": "Days",
+      "value": 365
+    },
+    {
+      "trait_type": "Element",
+      "value": "水"
+    },
+    {
+      "trait_type": "Color",
+      "value": "黑"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Stage",
+      "value": "天人合一"
+    }
+  ],
+  "collection": {
+    "name": "证道 · 灵魂绑定代币",
+    "family": "ZhengDAO SBT"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://gateway.arweave.net/tx-id-placeholder-level5",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

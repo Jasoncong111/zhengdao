@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>证道 SBT 图像预览 - 直接访问</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #FFFEF2 0%, #F5F5DC 100%);
+      padding: 2rem;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: white;
+      border: 2px solid #000000;
+    }
+    .header h1 { color: #000000; margin-bottom: 0.5rem; }
+    .header p { color: #666666; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .card {
+      background: white;
+      border: 2px solid #000000;
+      padding: 1.5rem;
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+    }
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .card-subtitle {
+      font-size: 1rem;
+      color: #D43628;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+    .card-image {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      margin-bottom: 1rem;
+      border: 1px solid #e5e5e5;
+      background: #f9f9f9;
+    }
+    .card-info {
+      font-size: 0.875rem;
+      color: #666666;
+      line-height: 1.6;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: #D43628;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .note {
+      background: #fff3cd;
+      border: 2px solid #ffc107;
+      padding: 1rem;
+      margin: 2rem auto;
+      max-width: 1400px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🎨 证道 SBT 图像预览</h1>
+    <p>修身 · 齐家 · 证道 - AI生成的水墨风格 NFT 徽章</p>
+  </div>
+
+  <div class="note">
+    <strong>💡 提示：</strong> 如果图片无法显示，请检查浏览器控制台(F12)查看错误信息
+  </div>
+
+  <div class="grid">
+    <!-- Level 1 -->
+    <div class="card">
+      <div class="card-title">Level 1</div>
+      <div class="card-subtitle">11路奋斗者</div>
+      <img src="sbt-images/level-1/level-1.png" alt="11路奋斗者" class="card-image" onerror="this.src='sbt-images/level-1/level-1.svg'">
+      <div class="card-info">
+        <div>
+          <span class="badge">Common</span>
+          <span class="badge">灰/白</span>
+          <span class="badge">7天</span>
+        </div>
+        <p><strong>核心元素:</strong> 破旧公文包 + 双脚</p>
+        <p><strong>水墨效果:</strong> 淡墨晕染</p>
+        <p><strong>象征意义:</strong> 每一步都算数，从零开始</p>
+      </div>
+    </div>
+
+    <!-- Level 2 -->
+    <div class="card">
+      <div class="card-title">Level 2</div>
+      <div class="card-subtitle">扫码骑士</div>
+      <img src="sbt-images/level-2/level-2.png" alt="扫码骑士" class="card-image" onerror="this.src='sbt-images/level-2/level-2.svg'">
+      <div class="card-info">
+        <div>
+          <span class="badge">Uncommon</span>
+          <span class="badge">绿色</span>
+          <span class="badge">30天</span>
+        </div>
+        <p><strong>核心元素:</strong> 小黄车（共享单车）</p>
+        <p><strong>水墨效果:</strong> 竹叶水墨</p>
+        <p><strong>象征意义:</strong> 融入城市节奏，提升效率</p>
+      </div>
+    </div>
+
+    <!-- Level 3 -->
+    <div class="card">
+      <div class="card-title">Level 3</div>
+      <div class="card-subtitle">电掣游侠</div>
+      <img src="sbt-images/level-3/level-3.png" alt="电掣游侠" class="card-image" onerror="this.src='sbt-images/level-3/level-3.svg'">
+      <div class="card-info">
+        <div>
+          <span class="badge">Rare</span>
+          <span class="badge">蓝色</span>
+          <span class="badge">100天</span>
+        </div>
+        <p><strong>核心元素:</strong> 电动摩托</p>
+        <p><strong>水墨效果:</strong> 电流水墨线条</p>
+        <p><strong>象征意义:</strong> 速度冲刺，质变时刻</p>
+      </div>
+    </div>
+
+    <!-- Level 4 -->
+    <div class="card">
+      <div class="card-title">Level 4</div>
+      <div class="card-subtitle">四轮领航员</div>
+      <img src="sbt-images/level-4/level-4.png" alt="四轮领航员" class="card-image" onerror="this.src='sbt-images/level-4/level-4.svg'">
+      <div class="card-info">
+        <div>
+          <span class="badge">Epic</span>
+          <span class="badge">紫色</span>
+          <span class="badge">365天</span>
+        </div>
+        <p><strong>核心元素:</strong> 轿车</p>
+        <p><strong>水墨效果:</strong> 云雾缭绕</p>
+        <p><strong>象征意义:</strong> 稳定掌控，一年坚持</p>
+      </div>
+    </div>
+
+    <!-- Level 5 -->
+    <div class="card">
+      <div class="card-title">Level 5</div>
+      <div class="card-subtitle">超跑绅士</div>
+      <img src="sbt-images/level-5/level-5.png" alt="超跑绅士" class="card-image" onerror="this.src='sbt-images/level-5/level-5.svg'">
+      <div class="card-info">
+        <div>
+          <span class="badge">Legendary</span>
+          <span class="badge">红色</span>
+          <span class="badge">700天</span>
+        </div>
+        <p><strong>核心元素:</strong> 敞篷跑车</p>
+        <p><strong>水墨效果:</strong> 火焰水墨</p>
+        <p><strong>象征意义:</strong> 激情超越，追求极致</p>
+      </div>
+    </div>
+
+    <!-- Level 6 -->
+    <div class="card">
+      <div class="card-title">Level 6</div>
+      <div class="card-subtitle">逍遥散仙</div>
+      <img src="sbt-images/level-6/level-6.png" alt="逍遥散仙" class="card-image" onerror="this.src='sbt-images/level-6/level-6.svg'">
+      <div class="card-info">
+        <div>
+          <span class="badge">Mythical</span>
+          <span class="badge">金色</span>
+          <span class="badge">1000天</span>
+        </div>
+        <p><strong>核心元素:</strong> 沙滩椅 + 香槟</p>
+        <p><strong>水墨效果:</strong> 祥云/光环</p>
+        <p><strong>象征意义:</strong> 超脱物外，自由自在</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: white; border: 2px solid #000000;">
+    <p style="color: #666666;">图片位置: public/sbt-images/level-N/level-N.png</p>
+    <p style="color: #666666; margin-top: 0.5rem;">文件大小: 1.7-1.9MB (1080x1080px)</p>
+  </div>
+</body>
+</html>

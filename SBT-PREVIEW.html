@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>证道 SBT 图像预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 20px;
+            margin-bottom: 60px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1F2937;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .card-subtitle {
+            font-size: 18px;
+            color: #6B7280;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-info {
+            background: #F3F4F6;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #4B5563;
+        }
+
+        .card-info div {
+            margin: 8px 0;
+        }
+
+        .card-info strong {
+            color: #1F2937;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .level-1 { background: #D1D5DB; color: #374151; }
+        .level-2 { background: #93C5FD; color: #1E40AF; }
+        .level-3 { background: #86EFAC; color: #065F46; }
+        .level-4 { background: #FCD34D; color: #92400E; }
+        .level-5 { background: #FCA5A5; color: #991B1B; }
+        .level-6 { background: #E879F9; color: #86198F; }
+
+        footer {
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>证道 SBT 图像预览</h1>
+        <p class="subtitle">水墨风格 · 六个等级 · 灵魂绑定</p>
+
+        <div class="gallery">
+            <!-- Level 1 -->
+            <div class="card">
+                <div class="card-title">Level 1</div>
+                <div class="card-subtitle">初级修行者</div>
+                <img src="public/sbt-images/level-1/level-1.svg" alt="Level 1 SBT" class="card-image">
+                <div class="card-info">
+                    <div><strong>持续时间:</strong> 7天</div>
+                    <div><strong>核心元素:</strong> 破旧公文包 + 双脚</div>
+                    <div><strong>设计理念:</strong> 踏上修行之路</div>
+                    <div style="text-align: center;">
+                        <span class="level-badge level-1">入门等级</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 2 -->
+            <div class="card">
+                <div class="card-title">Level 2</div>
+                <div class="card-subtitle">中级修行者</div>
+                <img src="public/sbt-images/level-2/level-2.svg" alt="Level 2 SBT" class="card-image">
+                <div class="card-info">
+                    <div><strong>持续时间:</strong> 30天</div>
+                    <div><strong>核心元素:</strong> 现代公文包 + 行走轨迹</div>
+                    <div><strong>设计理念:</strong> 稳步前进</div>
+                    <div style="text-align: center;">
+                        <span class="level-badge level-2">进阶等级</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 3 -->
+            <div class="card">
+                <div class="card-title">Level 3</div>
+                <div class="card-subtitle">高级修行者</div>
+                <img src="public/sbt-images/level-3/level-3.svg" alt="Level 3 SBT" class="card-image">
+                <div class="card-info">
+                    <div><strong>持续时间:</strong> 90天</div>
+                    <div><strong>核心元素:</strong> 精致公文包 + 飞行轨迹</div>
+                    <div><strong>设计理念:</strong> 超越平凡</div>
+                    <div style="text-align: center;">
+                        <span class="level-badge level-3">中坚等级</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 4 -->
+            <div class="card">
+                <div class="card-title">Level 4</div>
+                <div class="card-subtitle">大师</div>
+                <img src="public/sbt-images/level-4/level-4.svg" alt="Level 4 SBT" class="card-image">
+                <div class="card-info">
+                    <div><strong>持续时间:</strong> 180天</div>
+                    <div><strong>核心元素:</strong> 金色公文包 + 光环</div>
+                    <div><strong>设计理念:</strong> 大师境界</div>
+                    <div style="text-align: center;">
+                        <span class="level-badge level-4">高级等级</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 5 -->
+            <div class="card">
+                <div class="card-title">Level 5</div>
+                <div class="card-subtitle">宗师</div>
+                <img src="public/sbt-images/level-5/level-5.svg" alt="Level 5 SBT" class="card-image">
+                <div class="card-info">
+                    <div><strong>持续时间:</strong> 365天</div>
+                    <div><strong>核心元素:</strong> 水墨山水 + 神秘公文包</div>
+                    <div><strong>设计理念:</strong> 超凡入圣</div>
+                    <div style="text-align: center;">
+                        <span class="level-badge level-5">宗师等级</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 6 -->
+            <div class="card">
+                <div class="card-title">Level 6</div>
+                <div class="card-subtitle">道尊</div>
+                <img src="public/sbt-images/level-6/level-6.svg" alt="Level 6 SBT" class="card-image">
+                <div class="card-info">
+                    <div><strong>持续时间:</strong> 1000天</div>
+                    <div><strong>核心元素:</strong> 太极阴阳 + 证道圆满</div>
+                    <div><strong>设计理念:</strong> 得道成仙</div>
+                    <div style="text-align: center;">
+                        <span class="level-badge level-6">最高等级</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>证道项目 · 灵魂绑定代币 (SBT) · 水墨风格设计</p>
+            <p>文件格式: SVG · 尺寸: 1080x1080px</p>
+        </footer>
+    </div>
+</body>
+</html>

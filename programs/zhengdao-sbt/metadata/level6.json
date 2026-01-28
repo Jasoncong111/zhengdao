@@ -1,0 +1,55 @@
+{
+  "name": "证道 · 道尊",
+  "symbol": "ZHENGD",
+  "description": "修行一千日，道尊之位。明心见性，彻悟大道。虚实相忘，物我两忘，得道成仙，万世流芳。此乃修行之最高境界，非大毅力者不可得也。",
+  "image": "https://gateway.arweave.net/tx-id-placeholder-level6",
+  "animation_url": null,
+  "external_url": "https://zhengdao.io/sbt/level6",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 6
+    },
+    {
+      "trait_type": "Title",
+      "value": "道尊"
+    },
+    {
+      "trait_type": "Days",
+      "value": 1000
+    },
+    {
+      "trait_type": "Element",
+      "value": "五行合一"
+    },
+    {
+      "trait_type": "Color",
+      "value": "紫"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Stage",
+      "value": "得道成仙"
+    },
+    {
+      "trait_type": "Special",
+      "value": "至尊"
+    }
+  ],
+  "collection": {
+    "name": "证道 · 灵魂绑定代币",
+    "family": "ZhengDAO SBT"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://gateway.arweave.net/tx-id-placeholder-level6",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

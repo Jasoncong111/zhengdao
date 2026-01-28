@@ -1,0 +1,18 @@
+{
+  "name": "证道之路 - 四轮领航员",
+  "description": "坚持打卡365天，获得四轮领航员称号。一年的坚持，稳定的掌控力。",
+  "image": "/sbt-images/level-4/level-4.png",
+  "external_url": "https://zhengdao.app",
+  "attributes": [
+    { "trait_type": "Level", "value": 4 },
+    { "trait_type": "Days", "value": 365 },
+    { "trait_type": "Title", "value": "四轮领航员" },
+    { "trait_type": "Title EN", "value": "CAPTAIN" },
+    { "trait_type": "Chain", "value": "BNB Chain" },
+    { "trait_type": "Rarity", "value": "Epic" },
+    { "trait_type": "Color", "value": "Purple" },
+    { "trait_type": "Icon", "value": "car" },
+    { "trait_type": "Keywords", "value": "稳定、掌控" },
+    { "trait_type": "Reward Bonus", "value": "+20%" }
+  ]
+}

@@ -636,7 +636,7 @@ export default function AnalyticsPage() {
                 >
                   天
                 </div>
-                {user.rank <= 3 && <span>⭐</span>}
+                {user.rank <= 3 && <span className="text-yellow-500 font-bold">TOP</span>}
               </div>
             </div>
           ))}
@@ -656,7 +656,7 @@ export default function AnalyticsPage() {
             className="text-xl font-bold text-black mb-4"
             style={{ fontFamily: 'Georgia, serif' }}
           >
-            📊 我的月度成长报告
+            我的月度成长报告
           </h3>
           <MonthlyReport walletAddress={address} />
         </motion.div>

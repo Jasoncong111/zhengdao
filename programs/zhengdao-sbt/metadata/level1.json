@@ -1,0 +1,51 @@
+{
+  "name": "证道 · 初级修行者",
+  "symbol": "ZHENGD",
+  "description": "吾日三省吾身，修心养性七日有余。初识修行之道，心向大道，日夜精进。",
+  "image": "https://gateway.arweave.net/tx-id-placeholder-level1",
+  "animation_url": null,
+  "external_url": "https://zhengdao.io/sbt/level1",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 1
+    },
+    {
+      "trait_type": "Title",
+      "value": "初级修行者"
+    },
+    {
+      "trait_type": "Days",
+      "value": 7
+    },
+    {
+      "trait_type": "Element",
+      "value": "木"
+    },
+    {
+      "trait_type": "Color",
+      "value": "青"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Stage",
+      "value": "入门"
+    }
+  ],
+  "collection": {
+    "name": "证道 · 灵魂绑定代币",
+    "family": "ZhengDAO SBT"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://gateway.arweave.net/tx-id-placeholder-level1",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

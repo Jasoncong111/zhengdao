@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>证道项目 - 网页展示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .ink-wash {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .chinese-border {
+            border: 3px solid #1F2937;
+            border-radius: 0;
+        }
+
+        .component-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkin-ring {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(#D43628 0deg, #D43628 calc(var(--progress) * 3.6deg), #E5E7EB calc(var(--progress) * 3.6deg), #E5E7EB 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .checkin-ring-inner {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .sbt-preview {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="ink-wash text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold mb-4">证道项目</h1>
+            <p class="text-xl opacity-90">Web3 打卡养成游戏 · 灵魂绑定代币 (SBT) · 双链支持</p>
+            <div class="mt-8 flex justify-center gap-4 flex-wrap">
+                <span class="px-4 py-2 bg-white/20 rounded">Next.js 15</span>
+                <span class="px-4 py-2 bg-white/20 rounded">TypeScript</span>
+                <span class="px-4 py-2 bg-white/20 rounded">Tailwind CSS</span>
+                <span class="px-4 py-2 bg-white/20 rounded">Wagmi</span>
+                <span class="px-4 py-2 bg-white/20 rounded">Solana Web3</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-12">
+        <!-- 主要功能 -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">核心功能</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 打卡功能 -->
+                <div class="component-card">
+                    <div class="text-center mb-6">
+                        <div class="checkin-ring" style="--progress: 75">
+                            <div class="checkin-ring-inner">
+                                <div class="text-4xl font-bold text-gray-800">75</div>
+                                <div class="text-sm text-gray-600">已打卡天数</div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">每日打卡</h3>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>每次打卡获得 0.5% 收益</li>
+                        <li>连续打卡获得额外奖励</li>
+                        <li>超过48小时未打卡扣除10%本金</li>
+                        <li>收益实时计算显示</li>
+                    </ul>
+                </div>
+
+                <!-- 等级系统 -->
+                <div class="component-card">
+                    <h3 class="text-xl font-bold mb-3">等级系统</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 chinese-border">
+                            <span>Level 1 - 初级修行者</span>
+                            <span class="level-badge bg-gray-200">7天</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-blue-50 chinese-border">
+                            <span>Level 2 - 中级修行者</span>
+                            <span class="level-badge bg-blue-200">30天</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-green-50 chinese-border">
+                            <span>Level 3 - 高级修行者</span>
+                            <span class="level-badge bg-green-200">90天</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-yellow-50 chinese-border">
+                            <span>Level 4 - 大师</span>
+                            <span class="level-badge bg-yellow-200">180天</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-red-50 chinese-border">
+                            <span>Level 5 - 宗师</span>
+                            <span class="level-badge bg-red-200">365天</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-purple-50 chinese-border">
+                            <span>Level 6 - 道尊</span>
+                            <span class="level-badge bg-purple-200">1000天</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SBT系统 -->
+                <div class="component-card">
+                    <h3 class="text-xl font-bold mb-3 text-center">灵魂绑定代币 (SBT)</h3>
+                    <div class="text-center mb-4">
+                        <img src="public/sbt-images/level-1/level-1.svg" alt="Level 1 SBT" class="sbt-preview mx-auto">
+                        <p class="text-sm text-gray-600 mt-2">Level 1 - 初级修行者</p>
+                    </div>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>达到等级自动铸造SBT</li>
+                        <li>不可转移，永久绑定</li>
+                        <li>水墨风格设计</li>
+                        <li>双链支持 (BNB + Solana)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 吾日三省吾身 -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">吾日三省吾身</h2>
+            <div class="component-card max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 bg-red-50 chinese-border">
+                        <h4 class="font-bold text-red-800 mb-3">做了什么</h4>
+                        <p class="text-sm text-gray-700">
+                            记录今日的成就和行动，包括打卡、学习、工作等内容。
+                        </p>
+                        <div class="mt-3 text-xs text-red-600">
+                            示例：完成了Solidity学习、打卡连续30天
+                        </div>
+                    </div>
+                    <div class="p-6 bg-yellow-50 chinese-border">
+                        <h4 class="font-bold text-yellow-800 mb-3">怎么做的</h4>
+                        <p class="text-sm text-gray-700">
+                            反思方法和策略，什么做得好，什么需要改进。
+                        </p>
+                        <div class="mt-3 text-xs text-yellow-600">
+                            示例：早起打卡效果好，需要保持作息规律
+                        </div>
+                    </div>
+                    <div class="p-6 bg-green-50 chinese-border">
+                        <h4 class="font-bold text-green-800 mb-3">下次怎么做</h4>
+                        <p class="text-sm text-gray-700">
+                            规划明天的行动，设定具体目标和改进措施。
+                        </p>
+                        <div class="mt-3 text-xs text-green-600">
+                            示例：明天继续6点起床，增加30分钟阅读
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-gray-50 chinese-border">
+                    <h4 class="font-bold mb-3">AI 智能分析</h4>
+                    <p class="text-sm text-gray-700">
+                        系统使用 Claude AI 分析你的每日反思，提供个性化的建议和改进方案。
+                        支持文本输入和图片识别（手写笔记、白板等）。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PVP 系统 -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">PVP 惩罚机制</h2>
+            <div class="component-card max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center p-6">
+                        <div class="text-5xl mb-3">💰</div>
+                        <h4 class="font-bold mb-2">本金池</h4>
+                        <p class="text-sm text-gray-600">
+                            用户投入本金进入资金池，形成奖励来源
+                        </p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="text-5xl mb-3">⚔️</div>
+                        <h4 class="font-bold mb-2">PVP 竞争</h4>
+                        <p class="text-sm text-gray-600">
+                            未打卡用户被扣除10%本金，分配给活跃用户
+                        </p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="text-5xl mb-3">🏆</div>
+                        <h4 class="font-bold mb-2">收益奖励</h4>
+                        <p class="text-sm text-gray-600">
+                            活跃用户分享惩罚资金，获得额外收益
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-red-50 chinese-border">
+                    <h4 class="font-bold text-red-800 mb-2">惩罚规则</h4>
+                    <p class="text-sm text-gray-700">
+                        超过48小时未打卡将被扣除本金的10%，该资金将被分配给最近打卡的活跃用户。
+                        这激励用户保持连续打卡，形成良性竞争。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术栈 -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">技术架构</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 前端 -->
+                <div class="component-card">
+                    <h3 class="text-xl font-bold mb-4">前端技术栈</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span>Next.js 15</span>
+                            <span class="level-badge bg-blue-100 text-blue-800">React框架</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>TypeScript</span>
+                            <span class="level-badge bg-blue-100 text-blue-800">类型安全</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Tailwind CSS</span>
+                            <span class="level-badge bg-cyan-100 text-cyan-800">样式框架</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Framer Motion</span>
+                            <span class="level-badge bg-purple-100 text-purple-800">动画库</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Wagmi</span>
+                            <span class="level-badge bg-orange-100 text-orange-800">钱包连接</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 智能合约 -->
+                <div class="component-card">
+                    <h3 class="text-xl font-bold mb-4">智能合约</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span>BNB Chain</span>
+                            <span class="level-badge bg-yellow-100 text-yellow-800">Solidity</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Solana</span>
+                            <span class="level-badge bg-purple-100 text-purple-800">Rust + Anchor</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>ERC-721 SBT</span>
+                            <span class="level-badge bg-green-100 text-green-800">灵魂绑定</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>OpenZeppelin</span>
+                            <span class="level-badge bg-gray-100 text-gray-800">安全合约</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 项目进度 -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">项目进度</h2>
+            <div class="component-card max-w-4xl mx-auto">
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold">V1.0 - 基础打卡系统</span>
+                            <span class="text-green-600">100%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-green-500 h-3 rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold">V2.0 - PVP系统</span>
+                            <span class="text-green-600">100%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-green-500 h-3 rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold">V3.0 - 吾日三省吾身</span>
+                            <span class="text-green-600">100%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-green-500 h-3 rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold">V4.0 - SBT系统 (BNB)</span>
+                            <span class="text-yellow-600">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-yellow-500 h-3 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold">V5.0 - Solana集成</span>
+                            <span class="text-blue-600">进行中</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-blue-500 h-3 rounded-full" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 文件结构 -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">项目文件结构</h2>
+            <div class="component-card max-w-4xl mx-auto">
+                <pre class="text-sm text-gray-700 overflow-x-auto"><code>/
+├── app/                          # Next.js App Router
+│   ├── page.tsx                 # 主页面
+│   ├── analytics/               # 数据分析页面
+│   └── layout.tsx               # 根布局
+├── components/                   # React组件
+│   ├── achievement/             # SBT系统组件
+│   │   ├── LevelDisplay.tsx
+│   │   ├── SBTGallery.tsx
+│   │   └── ClaimSBTFlow.tsx
+│   ├── CheckInRing.tsx          # 打卡圆环
+│   ├── WeekGrid.tsx             # 周网格
+│   ├── ReflectionFlow.tsx       # 反思流程
+│   └── PVPDemo.tsx              # PVP演示
+├── contracts/                    # 智能合约 (Solidity)
+│   └── ZhengDaoSBT.sol
+├── programs/                     # Solana程序
+│   └── zhengdao-sbt/
+│       ├── src/lib.rs           # Rust程序
+│       └── tests/               # 测试文件
+├── lib/                         # 工具库
+│   ├── contractABI.ts          # 合约ABI
+│   ├── storage.ts              # 本地存储
+│   └── achievement-system.ts   # 成就系统
+└── public/                      # 静态资源
+    └── sbt-images/              # SBT图像
+        ├── level-1/
+        ├── level-2/
+        └── ...</code></pre>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-lg mb-2">证道项目 - Web3 打卡养成游戏</p>
+            <p class="text-sm opacity-70">灵魂绑定代币 (SBT) · 双链支持 (BNB + Solana)</p>
+            <div class="mt-4 flex justify-center gap-4 text-sm">
+                <span>Made with Next.js 15</span>
+                <span>TypeScript</span>
+                <span>Tailwind CSS</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

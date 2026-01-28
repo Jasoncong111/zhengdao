@@ -1,0 +1,18 @@
+{
+  "name": "证道之路 - 逍遥散仙",
+  "description": "坚持打卡1000天，获得逍遥散仙称号。超脱物外，自由自在。",
+  "image": "/sbt-images/level-6/level-6.png",
+  "external_url": "https://zhengdao.app",
+  "attributes": [
+    { "trait_type": "Level", "value": 6 },
+    { "trait_type": "Days", "value": 1000 },
+    { "trait_type": "Title", "value": "逍遥散仙" },
+    { "trait_type": "Title EN", "value": "IMMORTAL" },
+    { "trait_type": "Chain", "value": "BNB Chain" },
+    { "trait_type": "Rarity", "value": "Mythical" },
+    { "trait_type": "Color", "value": "Gold" },
+    { "trait_type": "Icon", "value": "champagne" },
+    { "trait_type": "Keywords", "value": "自由、超脱" },
+    { "trait_type": "Reward Bonus", "value": "+50%" }
+  ]
+}

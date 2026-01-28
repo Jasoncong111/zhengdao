@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>证道项目 - TASK-D & TASK-I 成果展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #FFFEF2 0%, #FFF9E6 100%);
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border: 2px solid #1a1a1a;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #D43628 0%, #F3BA2F 50%, #9945FF 100%);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .header .meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .meta-item .icon {
+            font-size: 1.5rem;
+        }
+
+        .meta-item .text {
+            font-weight: 600;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            border: 2px solid #1a1a1a;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #D43628;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title .icon {
+            font-size: 2.5rem;
+        }
+
+        .section-title .badge {
+            margin-left: auto;
+            padding: 0.5rem 1rem;
+            background: #10B981;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+
+        /* Task Cards */
+        .task-card {
+            background: linear-gradient(135deg, #FFFEF2 0%, #F5F5DC 100%);
+            border: 2px solid #e0e0e0;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .task-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .task-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .task-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 2px solid #1a1a1a;
+            border-radius: 12px;
+            font-size: 2rem;
+        }
+
+        .task-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-info p {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        /* Feature List */
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .feature-item .check {
+            color: #10B981;
+            font-size: 1.25rem;
+        }
+
+        /* Component Preview */
+        .component-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .component-preview h4 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        /* File List */
+        .file-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .file-item:hover {
+            background: white;
+            border-color: #1a1a1a;
+        }
+
+        .file-icon {
+            font-size: 2rem;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
+        }
+
+        .file-desc {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .file-status {
+            padding: 0.25rem 0.75rem;
+            background: #10B981;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .file-status.update {
+            background: #F3BA2F;
+        }
+
+        /* Coming Soon Grid */
+        .coming-soon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .coming-soon-card {
+            background: linear-gradient(135deg, #FFFEF2 0%, #F5F5DC 100%);
+            border: 2px solid #000000;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .coming-soon-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .coming-soon-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #D43628;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            font-size: 0.875rem;
+            border-radius: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .coming-soon-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .coming-soon-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .coming-soon-desc {
+            color: #666;
+            margin-bottom: 1rem;
+            white-space: pre-line;
+        }
+
+        .coming-soon-expectation {
+            color: #D43628;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .coming-soon-timeline {
+            font-size: 0.875rem;
+            color: #999;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #D43628;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem;
+            background: #1a1a1a;
+            color: white;
+            margin-top: 4rem;
+        }
+
+        .footer h2 {
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            color: #999;
+            margin: 0.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Chain Icons */
+        .chain-display {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .chain-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .chain-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .chain-bnb {
+            background: #F3BA2F;
+        }
+
+        .chain-solana {
+            background: #9945FF;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🎊 证道项目 - 成果展示</h1>
+        <p class="subtitle">TASK-D & TASK-I 完成成果可视化报告</p>
+        <div class="meta">
+            <div class="meta-item">
+                <span class="icon">👨‍💻</span>
+                <span class="text">AI #4 - UI组件开发</span>
+            </div>
+            <div class="meta-item">
+                <span class="icon">📅</span>
+                <span class="text">2026-01-27</span>
+            </div>
+            <div class="meta-item">
+                <span class="icon">⏱️</span>
+                <span class="text">总用时: ~3.5小时</span>
+            </div>
+            <div class="meta-item">
+                <span class="icon">✅</span>
+                <span class="text">完成度: 100%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Statistics -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📊</span>
+                <span>成果统计</span>
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">文件创建/更新</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">~800</div>
+                    <div class="stat-label">代码行数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">核心组件升级</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Coming Soon功能</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">区块链支持</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">响应式支持</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TASK-D -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🔗</span>
+                <span>TASK-D: SBT组件双链适配</span>
+                <span class="badge">已完成</span>
+            </h2>
+
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-icon">🎯</div>
+                    <div class="task-info">
+                        <h3>双链适配完成</h3>
+                        <p>所有SBT相关组件现已支持BNB Chain和Solana双链</p>
+                    </div>
+                </div>
+
+                <div class="chain-display">
+                    <div class="chain-item">
+                        <span class="chain-dot chain-bnb"></span>
+                        <span>BNB Chain</span>
+                    </div>
+                    <div class="chain-item">
+                        <span class="chain-dot chain-solana"></span>
+                        <span>Solana</span>
+                    </div>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <span class="check">✅</span>
+                        <span>ClaimSBTFlow - 智能钱包检测</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✅</span>
+                        <span>LevelDisplay - 双链等级展示</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✅</span>
+                        <span>SBTGallery - 双链筛选展示</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✅</span>
+                        <span>链切换器集成</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✅</span>
+                        <span>钱包状态智能检测</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✅</span>
+                        <span>链图标和标签</span>
+                    </div>
+                </div>
+
+                <div class="component-preview">
+                    <h4>🎨 技术亮点</h4>
+                    <ul>
+                        <li>根据链类型动态显示对应钱包选项（BNB: MetaMask/WalletConnect, Solana: Phantom/Solflare）</li>
+                        <li>集成useChainManager统一管理链状态</li>
+                        <li>使用React key机制优化链切换动画</li>
+                        <li>完整的水墨风格UI设计</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="margin: 2rem 0 1rem 0;">📁 更新的文件清单</h3>
+            <div class="file-list">
+                <div class="file-item">
+                    <span class="file-icon">📄</span>
+                    <div class="file-info">
+                        <div class="file-name">components/achievement/ClaimSBTFlow.tsx</div>
+                        <div class="file-desc">双链钱包适配，智能钱包选项显示，状态检测</div>
+                    </div>
+                    <span class="file-status update">更新</span>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">📄</span>
+                    <div class="file-info">
+                        <div class="file-name">components/achievement/LevelDisplay.tsx</div>
+                        <div class="file-desc">双链等级展示，集成ChainSwitcher组件</div>
+                    </div>
+                    <span class="file-status update">更新</span>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">📄</span>
+                    <div class="file-info">
+                        <div class="file-name">components/achievement/SBTGallery.tsx</div>
+                        <div class="file-desc">双链展示增强，添加链图标显示</div>
+                    </div>
+                    <span class="file-status update">更新</span>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">📄</span>
+                    <div class="file-info">
+                        <div class="file-name">lib/achievement-system.ts</div>
+                        <div class="file-desc">添加getLevelIcon导出函数</div>
+                    </div>
+                    <span class="file-status update">更新</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TASK-I -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🎨</span>
+                <span>TASK-I: Coming Soon界面</span>
+                <span class="badge">已完成</span>
+            </h2>
+
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-icon">🚀</div>
+                    <div class="task-info">
+                        <h3>即将推出的功能</h3>
+                        <p>4个新功能的Coming Soon展示，遵循水墨风格设计</p>
+                    </div>
+                </div>
+
+                <div class="coming-soon-grid">
+                    <div class="coming-soon-card">
+                        <div class="coming-soon-badge">Coming Soon</div>
+                        <div class="coming-soon-icon">⚔️</div>
+                        <div class="coming-soon-title">论剑</div>
+                        <div class="coming-soon-desc">与同道中人一决高下
+比拼打卡坚持、资产增长
+赢取特别奖励和荣耀</div>
+                        <div class="coming-soon-expectation">🎁 期待值: ⭐⭐⭐⭐⭐</div>
+                        <div class="coming-soon-timeline">📅 预计上线: Q2 2026</div>
+                    </div>
+
+                    <div class="coming-soon-card">
+                        <div class="coming-soon-badge">Coming Soon</div>
+                        <div class="coming-soon-icon">🎯</div>
+                        <div class="coming-soon-title">人生蓝图</div>
+                        <div class="coming-soon-desc">立下初心，明确方向
+生成你的"道心凭证"
+在修行路上时刻校准</div>
+                        <div class="coming-soon-expectation">🎁 期待值: ⭐⭐⭐⭐⭐</div>
+                        <div class="coming-soon-timeline">📅 预计上线: Q1 2026</div>
+                    </div>
+
+                    <div class="coming-soon-card">
+                        <div class="coming-soon-badge">Coming Soon</div>
+                        <div class="coming-soon-icon">🤖</div>
+                        <div class="coming-soon-title">AI私董会 高级版</div>
+                        <div class="coming-soon-desc">深度AI分析你的修行数据
+发现隐藏的模式和趋势
+获得个性化建议和洞察</div>
+                        <div class="coming-soon-expectation">🎁 期待值: ⭐⭐⭐⭐</div>
+                        <div class="coming-soon-timeline">📅 预计上线: Q3 2026</div>
+                    </div>
+
+                    <div class="coming-soon-card">
+                        <div class="coming-soon-badge">Coming Soon</div>
+                        <div class="coming-soon-icon">👥</div>
+                        <div class="coming-soon-title">社交功能</div>
+                        <div class="coming-soon-desc">找到同行的道友
+互相监督，共同成长
+分享你的修行成果</div>
+                        <div class="coming-soon-expectation">🎁 期待值: ⭐⭐⭐⭐⭐</div>
+                        <div class="coming-soon-timeline">📅 预计上线: Q2 2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin: 2rem 0 1rem 0;">📁 创建的文件清单</h3>
+            <div class="file-list">
+                <div class="file-item">
+                    <span class="file-icon">📄</span>
+                    <div class="file-info">
+                        <div class="file-name">components/ComingSoonCard.tsx</div>
+                        <div class="file-desc">通用Coming Soon卡片组件，支持自定义标题、图标、描述</div>
+                    </div>
+                    <span class="file-status">新建</span>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">📄</span>
+                    <div class="file-info">
+                        <div class="file-name">components/ComingSoonShowcase.tsx</div>
+                        <div class="file-desc">展示所有4个功能的组件，响应式网格布局</div>
+                    </div>
+                    <span class="file-status">新建</span>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">📄</span>
+                    <div class="file-info">
+                        <div class="file-name">app/coming-soon/page.tsx</div>
+                        <div class="file-desc">Coming Soon演示页面，访问路径: /coming-soon</div>
+                    </div>
+                    <span class="file-status">新建</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Highlights -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">💎</span>
+                <span>技术亮点</span>
+            </h2>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <span class="check">✅</span>
+                    <span>TypeScript严格类型定义，类型安全100%</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✅</span>
+                    <span>Framer Motion流畅动画效果</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✅</span>
+                    <span>完全响应式设计（移动端/平板/桌面）</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✅</span>
+                    <span>水墨风格UI统一设计语言</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✅</span>
+                    <span>组件可复用性高，易于维护</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✅</span>
+                    <span>性能优化（React key机制，CSS动画）</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✅</span>
+                    <span>双链状态统一管理</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✅</span>
+                    <span>智能钱包检测和显示</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design System -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🎨</span>
+                <span>设计系统</span>
+            </h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #F3BA2F;">🟡</div>
+                    <div class="stat-label">BNB Chain</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #9945FF;">🟣</div>
+                    <div class="stat-label">Solana</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #D43628;">🔴</div>
+                    <div class="stat-label">朱砂红</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #1a1a1a;">⚫</div>
+                    <div class="stat-label">墨黑</div>
+                </div>
+            </div>
+
+            <div class="component-preview" style="background: linear-gradient(135deg, #FFFEF2 0%, #F5F5DC 100%); color: #1a1a1a;">
+                <h4>🖌️ 水墨风格色彩</h4>
+                <p><strong>纸白背景</strong>: #FFFEF2 → #F5F5DC</p>
+                <p><strong>边框</strong>: 2px solid #1a1a1a</p>
+                <p><strong>强调色</strong>: #D43628 (朱砂红)</p>
+                <p><strong>字体</strong>: Georgia, 'Noto Serif SC', serif</p>
+            </div>
+        </div>
+
+        <!-- Links -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🔗</span>
+                <span>相关文档</span>
+            </h2>
+
+            <div class="file-list">
+                <div class="file-item">
+                    <span class="file-icon">📋</span>
+                    <div class="file-info">
+                        <div class="file-name">TASK-D-COMPLETION.md</div>
+                        <div class="file-desc">TASK-D详细完成报告</div>
+                    </div>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">📋</span>
+                    <div class="file-info">
+                        <div class="file-name">TASK-I-COMPLETION.md</div>
+                        <div class="file-desc">TASK-I详细完成报告</div>
+                    </div>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">📐</span>
+                    <div class="file-info">
+                        <div class="file-name">docs/design/coming-soon-design.md</div>
+                        <div class="file-desc">Coming Soon界面设计规范</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to View -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">👀</span>
+                <span>如何查看成果</span>
+            </h2>
+
+            <div class="component-preview" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                <h4>🚀 启动开发服务器</h4>
+                <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; font-family: monospace; margin-top: 1rem;">
+                    <p>> npm run dev</p>
+                    <p style="color: rgba(255,255,255,0.8); margin-top: 0.5rem;"># 准备就备 on http://localhost:3000</p>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <p><strong>访问页面：</strong></p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Coming Soon: <code style="background: rgba(0,0,0,0.2); padding: 0.25rem 0.5rem; border-radius: 4px;">http://localhost:3000/coming-soon</code></li>
+                        <li>成就展示: <code style="background: rgba(0,0,0,0.2); padding: 0.25rem 0.5rem; border-radius: 4px;">http://localhost:3000/achievements</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <h2>修身 · 齐家 · 证道</h2>
+        <p>© 2026 证道项目 | Powered by BNB Chain & Solana</p>
+        <p style="margin-top: 1rem; font-size: 0.875rem;">
+            开发团队: AI #3, AI #4, AI #5, AI #6 | 项目协调: CTO Claude
+        </p>
+    </div>
+
+    <script>
+        // Add intersection observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.task-card, .section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add click effect on Coming Soon cards
+        document.querySelectorAll('.coming-soon-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

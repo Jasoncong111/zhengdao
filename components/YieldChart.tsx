@@ -192,7 +192,7 @@ export default function YieldChart({
         transition={{ delay: 0.8 }}
       >
         <p className="text-xs text-black/70" style={{ fontFamily: 'Georgia, serif' }}>
-          💡 每次打卡获得 0.5% 收益，复利计算。{days} 天后总收益达到 {yieldPercentage}%
+          每次打卡获得 0.5% 收益，复利计算。{days} 天后总收益达到 {yieldPercentage}%
         </p>
       </motion.div>
     </motion.div>

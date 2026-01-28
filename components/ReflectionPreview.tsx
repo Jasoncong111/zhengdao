@@ -57,8 +57,7 @@ export function ReflectionPreview({
 
       {/* 收获 */}
       <div className="mb-4 p-4 bg-white border-2 border-black">
-        <h4 className="text-lg font-bold text-black mb-3 flex items-center gap-2">
-          <span className="text-2xl">✓</span>
+        <h4 className="text-lg font-bold text-black mb-3">
           <span>收获</span>
         </h4>
         <ul className="space-y-2">
@@ -72,8 +71,7 @@ export function ReflectionPreview({
 
       {/* 损失 */}
       <div className="mb-4 p-4 bg-white border-2 border-black">
-        <h4 className="text-lg font-bold text-black mb-3 flex items-center gap-2">
-          <span className="text-2xl">✗</span>
+        <h4 className="text-lg font-bold text-black mb-3">
           <span>损失</span>
         </h4>
         <ul className="space-y-2">
@@ -89,7 +87,6 @@ export function ReflectionPreview({
       {structuredData.ideas.length > 0 && (
         <div className="mb-4 p-4 bg-white border-2 border-black">
           <h4 className="text-lg font-bold text-black mb-3 flex items-center gap-2">
-            <span className="text-2xl">💡</span>
             <span>想法</span>
           </h4>
           <ul className="space-y-2">

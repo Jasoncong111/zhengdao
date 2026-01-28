@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>证道 - Coming Soon 功能预览</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #FFFEF2 0%, #FFF9E6 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
+    }
+
+    .header .subtitle {
+      font-size: 1.25rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .divider {
+      width: 80px;
+      height: 3px;
+      background: #D43628;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      position: relative;
+      background: linear-gradient(135deg, #FFFEF2 0%, #F5F5DC 100%);
+      border: 2px solid #000000;
+      padding: 2rem;
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #D43628;
+      color: white;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      font-size: 0.875rem;
+      letter-spacing: 0.05em;
+      border-radius: 4px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #000000;
+      margin-bottom: 1rem;
+    }
+
+    .description {
+      font-size: 1rem;
+      color: #666666;
+      max-width: 400px;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .rules {
+      width: 100%;
+      max-width: 400px;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .rules-title {
+      font-size: 0.875rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 0.75rem;
+      text-align: left;
+    }
+
+    .rules-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+
+    .rule-item {
+      font-size: 0.875rem;
+      color: #666666;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+      padding-left: 0.5rem;
+    }
+
+    .rule-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .expectation {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #D43628;
+      font-weight: bold;
+      margin-top: auto;
+    }
+
+    .timeline {
+      font-size: 0.875rem;
+      color: #999999;
+      margin-top: 0.5rem;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, #FFFEF2 0%, #F5F5DC 100%);
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+
+    .footer p {
+      font-size: 1rem;
+      color: #666;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+        min-height: 320px;
+      }
+
+      .icon {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 页面头部 -->
+    <div class="header">
+      <h1>即将推出</h1>
+      <p class="subtitle">更多精彩功能，敬请期待</p>
+      <div class="divider"></div>
+    </div>
+
+    <!-- 功能卡片网格 -->
+    <div class="features-grid">
+      <!-- 卡片1: 挑战池 -->
+      <div class="card">
+        <div class="badge">Coming Soon</div>
+        <div class="icon">💰</div>
+        <h3 class="card-title">挑战池</h3>
+        <p class="description">入金参与挑战，完成打卡目标瓜分奖励池</p>
+        <div class="rules">
+          <div class="rules-title">规则说明:</div>
+          <ul class="rules-list">
+            <li class="rule-item">• 选择挑战周期（7天/30天/100天）</li>
+            <li class="rule-item">• 入金到挑战池（最低0.1 BNB）</li>
+            <li class="rule-item">• 每日完成打卡即视为成功</li>
+            <li class="rule-item">• 周期结束后，成功者瓜分失败者的资金</li>
+            <li class="rule-item">• 全员成功则资金原路返还</li>
+          </ul>
+        </div>
+        <div class="expectation">
+          <span>🎁 期待值:</span>
+          <span>⭐⭐⭐⭐⭐</span>
+        </div>
+        <div class="timeline">📅 预计上线: Q2 2026</div>
+      </div>
+
+      <!-- 卡片2: 名人挑战 -->
+      <div class="card">
+        <div class="badge">Coming Soon</div>
+        <div class="icon">⭐</div>
+        <h3 class="card-title">名人挑战</h3>
+        <p class="description">追踪名人自律情况，参与预测赢取奖励</p>
+        <div class="rules">
+          <div class="rules-title">规则说明:</div>
+          <ul class="rules-list">
+            <li class="rule-item">• 选择追踪的名人（KOL/创业者/明星）</li>
+            <li class="rule-item">• 系统自动追踪名人每日推文/动态</li>
+            <li class="rule-item">• 预测名人是否完成自律目标</li>
+            <li class="rule-item">• 预测正确获得积分奖励</li>
+            <li class="rule-item">• 名人未达标时，追踪者瓜分奖励池</li>
+          </ul>
+        </div>
+        <div class="expectation">
+          <span>🎁 期待值:</span>
+          <span>⭐⭐⭐⭐⭐</span>
+        </div>
+        <div class="timeline">📅 预计上线: Q3 2026</div>
+      </div>
+
+      <!-- 卡片3: 积分系统 -->
+      <div class="card">
+        <div class="badge">Coming Soon</div>
+        <div class="icon">🎯</div>
+        <h3 class="card-title">积分系统</h3>
+        <p class="description">打卡获取积分，积分可兑换权益</p>
+        <div class="rules">
+          <div class="rules-title">规则说明:</div>
+          <ul class="rules-list">
+            <li class="rule-item">• 每日打卡获得10基础积分</li>
+            <li class="rule-item">• 连续打卡加成（7天+20%，30天+50%，100天+100%）</li>
+            <li class="rule-item">• 「有意义的一天」额外+5积分</li>
+            <li class="rule-item">• 积分可兑换：高级SBT皮肤、挑战池入场券、名人挑战特权、专属头像框</li>
+          </ul>
+        </div>
+        <div class="expectation">
+          <span>🎁 期待值:</span>
+          <span>⭐⭐⭐⭐⭐</span>
+        </div>
+        <div class="timeline">📅 预计上线: Q1 2026</div>
+      </div>
+
+      <!-- 卡片4: 论剑 -->
+      <div class="card">
+        <div class="badge">Coming Soon</div>
+        <div class="icon">⚔️</div>
+        <h3 class="card-title">论剑</h3>
+        <p class="description">与好友PK打卡，胜者获得额外奖励</p>
+        <div class="rules">
+          <div class="rules-title">规则说明:</div>
+          <ul class="rules-list">
+            <li class="rule-item">• 发起挑战，邀请好友参与</li>
+            <li class="rule-item">• 双方质押相同积分</li>
+            <li class="rule-item">• 比拼周期内的打卡表现：打卡天数、有意义天数比例、复盘质量评分</li>
+            <li class="rule-item">• 胜者获得对方质押的积分</li>
+            <li class="rule-item">• 平局则各自取回</li>
+          </ul>
+        </div>
+        <div class="expectation">
+          <span>🎁 期待值:</span>
+          <span>⭐⭐⭐⭐⭐</span>
+        </div>
+        <div class="timeline">📅 预计上线: Q2 2026</div>
+      </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+      <p>💡 提示：关注我们的动态，第一时间了解功能上线情况</p>
+    </div>
+  </div>
+
+  <script>
+    // 添加滚动动画效果
+    const cards = document.querySelectorAll('.card');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }, index * 100);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'all 0.6s ease';
+      observer.observe(card);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <!-- 金色渐变背景 -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FBBF24;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 祥云/光环水墨效果 -->
+    <radialGradient id="haloWash" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#D97706;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- 朱砂红印章渐变 -->
+    <linearGradient id="sealRed6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B91C1C;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 沙滩椅渐变 -->
+    <linearGradient id="chairGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FCD34D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 香槟金渐变 -->
+    <linearGradient id="champagneGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FEF3C7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FDE68A;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 光环渐变 -->
+    <radialGradient id="glowRing" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FEF3C7;stop-opacity:0" />
+      <stop offset="70%" style="stop-color:#FEF3C7;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#FEF3C7;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- 发光滤镜 -->
+    <filter id="divineGlow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景渐变 -->
+  <rect width="1080" height="1080" fill="url(#goldGradient)" />
+
+  <!-- 祥云/光环水墨晕染 -->
+  <ellipse cx="540" cy="400" rx="500" ry="350" fill="url(#haloWash)" opacity="0.8" />
+  <ellipse cx="200" cy="850" rx="350" ry="250" fill="url(#haloWash)" opacity="0.6" />
+  <ellipse cx="880" cy="200" rx="320" ry="230" fill="url(#haloWash)" opacity="0.7" />
+
+  <!-- 祥云装饰 -->
+  <g opacity="0.4" fill="#FEF3C7">
+    <path d="M150,150 Q180,120 210,150 Q240,120 270,150 Q300,120 330,150 Q300,180 270,150 Q240,180 210,150 Q180,180 150,150 Z" />
+    <path d="M750,120 Q780,90 810,120 Q840,90 870,120 Q900,90 930,120 Q900,150 870,120 Q840,150 810,120 Q780,150 750,120 Z" />
+    <path d="M80,700 Q110,670 140,700 Q170,670 200,700 Q170,730 140,700 Q110,730 80,700 Z" />
+    <path d="M880,850 Q910,820 940,850 Q970,820 1000,850 Q970,880 940,850 Q910,880 880,850 Z" />
+    <path d="M900,650 Q930,620 960,650 Q990,620 1020,650 Q990,680 960,650 Q930,680 900,650 Z" />
+  </g>
+
+  <!-- 漂浮光环（中央） -->
+  <g transform="translate(540, 540)" filter="url(#divineGlow)">
+    <circle cx="0" cy="0" r="350" fill="url(#glowRing)" opacity="0.6" />
+    <circle cx="0" cy="0" r="280" fill="url(#glowRing)" opacity="0.4" />
+  </g>
+
+  <!-- 核心元素：沙滩椅 -->
+  <g transform="translate(340, 520)">
+    <!-- 椅子框架 -->
+    <path d="M50,100 L50,250 L350,250 L350,100"
+          stroke="#B45309" stroke-width="8" fill="none" stroke-linejoin="round" />
+
+    <!-- 椅背 -->
+    <path d="M50,100 Q50,50 100,50 L300,50 Q350,50 350,100"
+          fill="url(#chairGrad)" stroke="#B45309" stroke-width="4" />
+
+    <!-- 椅面（条纹） -->
+    <g fill="#FEF3C7" stroke="#D97706" stroke-width="2">
+      <rect x="50" y="100" width="300" height="30" />
+      <rect x="50" y="135" width="300" height="30" fill="#FDE68A" />
+      <rect x="50" y="170" width="300" height="30" />
+      <rect x="50" y="205" width="300" height="30" fill="#FDE68A" />
+    </g>
+
+    <!-- 椅子腿 -->
+    <line x1="70" y1="250" x2="50" y2="300" stroke="#B45309" stroke-width="8" stroke-linecap="round" />
+    <line x1="330" y1="250" x2="350" y2="300" stroke="#B45309" stroke-width="8" stroke-linecap="round" />
+
+    <!-- 扶手 -->
+    <line x1="40" y1="150" x2="40" y2="200" stroke="#B45309" stroke-width="10" stroke-linecap="round" />
+    <line x1="360" y1="150" x2="360" y2="200" stroke="#B45309" stroke-width="10" stroke-linecap="round" />
+  </g>
+
+  <!-- 香槟杯 -->
+  <g transform="translate(700, 550)" filter="url(#divineGlow)">
+    <!-- 杯身 -->
+    <path d="M30,0 Q60,10 90,0 L80,80 Q70,90 60,90 Q50,90 40,80 Z"
+          fill="url(#champagneGrad)" stroke="#D97706" stroke-width="3" opacity="0.95" />
+
+    <!-- 杯脚 -->
+    <line x1="60" y1="90" x2="60" y2="130" stroke="#D97706" stroke-width="6" />
+
+    <!-- 杯底 -->
+    <ellipse cx="60" cy="135" rx="25" ry="8" fill="#F59E0B" stroke="#D97706" stroke-width="3" />
+
+    <!-- 香槟液体 -->
+    <path d="M35,40 Q60,50 85,40 L80,75 Q70,82 60,82 Q50,82 40,75 Z"
+          fill="#FEF9C3" stroke="#FDE047" stroke-width="2" opacity="0.8" />
+
+    <!-- 气泡 -->
+    <circle cx="50" cy="60" r="3" fill="#FEF9C3" opacity="0.7" />
+    <circle cx="65" cy="55" r="2" fill="#FEF9C3" opacity="0.7" />
+    <circle cx="70" cy="65" r="2.5" fill="#FEF9C3" opacity="0.7" />
+    <circle cx="55" cy="70" r="2" fill="#FEF9C3" opacity="0.7" />
+  </g>
+
+  <!-- 漂浮的星星闪光 -->
+  <g fill="#FEF3C7" filter="url(#divineGlow)" opacity="0.8">
+    <path d="M200,300 L205,310 L215,310 L207,317 L210,327 L200,320 L190,327 L193,317 L185,310 L195,310 Z" />
+    <path d="M850,250 L854,258 L862,258 L856,263 L858,271 L850,266 L842,271 L844,263 L838,258 L846,258 Z" />
+    <path d="M150,600 L154,608 L162,608 L156,613 L158,621 L150,616 L142,621 L144,613 L138,608 L146,608 Z" />
+    <path d="M900,700 L904,708 L912,708 L906,713 L908,721 L900,716 L892,721 L894,713 L888,708 L896,708 Z" />
+    <path d="M400,150 L403,156 L409,156 L404,160 L406,166 L400,162 L394,166 L396,160 L391,156 L397,156 Z" />
+  </g>
+
+  <!-- 左上角朱砂红印章 -->
+  <g transform="translate(80, 80)">
+    <rect x="0" y="0" width="120" height="120" rx="8" ry="8"
+          fill="url(#sealRed6)" stroke="#991B1B" stroke-width="3" />
+    <rect x="10" y="10" width="100" height="100" rx="4" ry="4"
+          fill="none" stroke="#FCA5A5" stroke-width="2" opacity="0.6" />
+
+    <text x="60" y="55" font-family="'Noto Serif SC', serif" font-size="36"
+          font-weight="bold" fill="#FEF2F2" text-anchor="middle" dominant-baseline="middle">
+      顶级
+    </text>
+
+    <circle cx="20" cy="20" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="100" cy="20" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="20" cy="100" r="3" fill="#FEF2F2" opacity="0.8" />
+    <circle cx="100" cy="100" r="3" fill="#FEF2F2" opacity="0.8" />
+  </g>
+
+  <!-- 右下角半透明"证道"水印 -->
+  <g transform="translate(830, 830)" opacity="0.3">
+    <text x="125" y="70" font-family="'Noto Serif SC', serif" font-size="80"
+          font-weight="bold" fill="#92400E" text-anchor="middle" writing-mode="tb">
+      证道
+    </text>
+    <rect x="10" y="10" width="230" height="120" rx="5" ry="5"
+          fill="none" stroke="#92400E" stroke-width="3" />
+  </g>
+
+  <!-- 等级标识 -->
+  <g transform="translate(540, 950)">
+    <text x="0" y="0" font-family="'Noto Serif SC', serif" font-size="48"
+          font-weight="bold" fill="#B45309" text-anchor="middle">
+      LEVEL 6
+    </text>
+    <text x="0" y="50" font-family="'Noto Serif SC', serif" font-size="32"
+          fill="#D97706" text-anchor="middle">
+      逍遥散仙
+    </text>
+  </g>
+
+  <!-- 外边框 -->
+  <rect x="10" y="10" width="1060" height="1060" rx="20" ry="20"
+        fill="none" stroke="#D97706" stroke-width="5" opacity="0.6" />
+</svg>

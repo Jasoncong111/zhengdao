@@ -1,0 +1,18 @@
+{
+  "name": "证道之路 - 扫码骑士",
+  "description": "坚持打卡30天，获得扫码骑士称号。融入城市节奏，效率与成长同行。",
+  "image": "/sbt-images/level-2/level-2.png",
+  "external_url": "https://zhengdao.app",
+  "attributes": [
+    { "trait_type": "Level", "value": 2 },
+    { "trait_type": "Days", "value": 30 },
+    { "trait_type": "Title", "value": "扫码骑士" },
+    { "trait_type": "Title EN", "value": "COMMUTER" },
+    { "trait_type": "Chain", "value": "BNB Chain" },
+    { "trait_type": "Rarity", "value": "Uncommon" },
+    { "trait_type": "Color", "value": "Green" },
+    { "trait_type": "Icon", "value": "bike" },
+    { "trait_type": "Keywords", "value": "效率、融入" },
+    { "trait_type": "Reward Bonus", "value": "+5%" }
+  ]
+}

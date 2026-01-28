@@ -1,0 +1,107 @@
+{
+  "test_users": [
+    {
+      "name": "Test User 1",
+      "description": "测试用户1 - 用于Level 1 SBT测试",
+      "level": 1,
+      "days": 7,
+      "metadata_uri": "https://gateway.arweave.net/tx-id-placeholder-level1"
+    },
+    {
+      "name": "Test User 2",
+      "description": "测试用户2 - 用于Level 2 SBT测试",
+      "level": 2,
+      "days": 30,
+      "metadata_uri": "https://gateway.arweave.net/tx-id-placeholder-level2"
+    },
+    {
+      "name": "Test User 3",
+      "description": "测试用户3 - 用于Level 3 SBT测试",
+      "level": 3,
+      "days": 90,
+      "metadata_uri": "https://gateway.arweave.net/tx-id-placeholder-level3"
+    },
+    {
+      "name": "Test User 4 - Master",
+      "description": "测试用户4 - 用于Level 4 SBT测试",
+      "level": 4,
+      "days": 180,
+      "metadata_uri": "https://gateway.arweave.net/tx-id-placeholder-level4"
+    },
+    {
+      "name": "Test User 5 - Grand Master",
+      "description": "测试用户5 - 用于Level 5 SBT测试",
+      "level": 5,
+      "days": 365,
+      "metadata_uri": "https://gateway.arweave.net/tx-id-placeholder-level5"
+    },
+    {
+      "name": "Test User 6 - Dao Master",
+      "description": "测试用户6 - 用于Level 6 SBT测试",
+      "level": 6,
+      "days": 1000,
+      "metadata_uri": "https://gateway.arweave.net/tx-id-placeholder-level6"
+    }
+  ],
+  "test_scenarios": [
+    {
+      "scenario": "Mint Level 1 SBT",
+      "level": 1,
+      "days": 7,
+      "expected_result": "success",
+      "description": "铸造初级修行者SBT"
+    },
+    {
+      "scenario": "Mint All 6 Levels",
+      "levels": [1, 2, 3, 4, 5, 6],
+      "expected_result": "success",
+      "description": "为同一用户铸造所有6个等级"
+    },
+    {
+      "scenario": "Invalid Level 0",
+      "level": 0,
+      "days": 7,
+      "expected_result": "error",
+      "error_code": "InvalidLevel",
+      "description": "测试无效等级0"
+    },
+    {
+      "scenario": "Invalid Level 7",
+      "level": 7,
+      "days": 7,
+      "expected_result": "error",
+      "error_code": "InvalidLevel",
+      "description": "测试无效等级7"
+    },
+    {
+      "scenario": "Metadata Too Long",
+      "level": 1,
+      "days": 7,
+      "metadata_uri": "https://example.com/" + "x".repeat(300),
+      "expected_result": "error",
+      "error_code": "MetadataUriTooLong",
+      "description": "测试超长元数据URI"
+    },
+    {
+      "scenario": "Unauthorized Update",
+      "level": 1,
+      "days": 7,
+      "action": "update_metadata",
+      "authority": "unauthorized_user",
+      "expected_result": "error",
+      "error_code": "Unauthorized",
+      "description": "测试未授权的元数据更新"
+    }
+  ],
+  "deployment_config": {
+    "network": "devnet",
+    "program_id": "zhengD1111111111111111111111111111111111111",
+    "rpc_url": "https://api.devnet.solana.com",
+    "keypair_path": "~/.config/solana/id.json"
+  },
+  "metadata_templates": {
+    "local_base": "./metadata/",
+    "production_base": "https://your-cdn.com/metadata/",
+    "arweave_base": "https://gateway.arweave.net/"
+  }
+}

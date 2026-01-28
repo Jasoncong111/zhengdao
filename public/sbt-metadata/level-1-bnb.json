@@ -1,0 +1,18 @@
+{
+  "name": "证道之路 - 11路奋斗者",
+  "description": "坚持打卡7天，获得11路奋斗者称号。每一步都算数，每一天都有意义。",
+  "image": "/sbt-images/level-1/level-1.png",
+  "external_url": "https://zhengdao.app",
+  "attributes": [
+    { "trait_type": "Level", "value": 1 },
+    { "trait_type": "Days", "value": 7 },
+    { "trait_type": "Title", "value": "11路奋斗者" },
+    { "trait_type": "Title EN", "value": "BEGINNER" },
+    { "trait_type": "Chain", "value": "BNB Chain" },
+    { "trait_type": "Rarity", "value": "Common" },
+    { "trait_type": "Color", "value": "Gray/White" },
+    { "trait_type": "Icon", "value": "walking" },
+    { "trait_type": "Keywords", "value": "坚持、起步" },
+    { "trait_type": "Reward Bonus", "value": "0%" }
+  ]
+}

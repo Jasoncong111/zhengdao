@@ -1,0 +1,51 @@
+{
+  "name": "证道 · 大师",
+  "symbol": "ZHENGD",
+  "description": "修行一百八十日，登堂入室。阴阳调和，道法精通，心通天地，身合自然，大师风范渐显。",
+  "image": "https://gateway.arweave.net/tx-id-placeholder-level4",
+  "animation_url": null,
+  "external_url": "https://zhengdao.io/sbt/level4",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 4
+    },
+    {
+      "trait_type": "Title",
+      "value": "大师"
+    },
+    {
+      "trait_type": "Days",
+      "value": 180
+    },
+    {
+      "trait_type": "Element",
+      "value": "金"
+    },
+    {
+      "trait_type": "Color",
+      "value": "白"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Stage",
+      "value": "化境"
+    }
+  ],
+  "collection": {
+    "name": "证道 · 灵魂绑定代币",
+    "family": "ZhengDAO SBT"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://gateway.arweave.net/tx-id-placeholder-level4",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

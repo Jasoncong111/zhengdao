@@ -1,0 +1,51 @@
+{
+  "name": "证道 · 高级修行者",
+  "symbol": "ZHENGD",
+  "description": "修行九十日，道心稳固。天地阴阳渐明，内息运转自如，明心见性，道法初成。",
+  "image": "https://gateway.arweave.net/tx-id-placeholder-level3",
+  "animation_url": null,
+  "external_url": "https://zhengdao.io/sbt/level3",
+  "attributes": [
+    {
+      "trait_type": "Level",
+      "value": 3
+    },
+    {
+      "trait_type": "Title",
+      "value": "高级修行者"
+    },
+    {
+      "trait_type": "Days",
+      "value": 90
+    },
+    {
+      "trait_type": "Element",
+      "value": "土"
+    },
+    {
+      "trait_type": "Color",
+      "value": "黄"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Stage",
+      "value": "大成"
+    }
+  ],
+  "collection": {
+    "name": "证道 · 灵魂绑定代币",
+    "family": "ZhengDAO SBT"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://gateway.arweave.net/tx-id-placeholder-level3",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

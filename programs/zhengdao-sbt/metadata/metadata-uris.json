@@ -1,0 +1,21 @@
+{
+  "metadata_uris": {
+    "1": "https://gateway.arweave.net/tx-id-placeholder-level1",
+    "2": "https://gateway.arweave.net/tx-id-placeholder-level2",
+    "3": "https://gateway.arweave.net/tx-id-placeholder-level3",
+    "4": "https://gateway.arweave.net/tx-id-placeholder-level4",
+    "5": "https://gateway.arweave.net/tx-id-placeholder-level5",
+    "6": "https://gateway.arweave.net/tx-id-placeholder-level6"
+  },
+  "local_files": {
+    "1": "./metadata/level1.json",
+    "2": "./metadata/level2.json",
+    "3": "./metadata/level3.json",
+    "4": "./metadata/level4.json",
+    "5": "./metadata/level5.json",
+    "6": "./metadata/level6.json"
+  },
+  "arweave_base": "https://gateway.arweave.net/",
+  "cdn_base": "https://your-cdn.com/metadata/",
+  "notes": "Replace tx-id-placeholder with actual Arweave transaction IDs after uploading images"
+}
