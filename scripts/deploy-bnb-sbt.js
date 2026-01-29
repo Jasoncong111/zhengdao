@@ -9,11 +9,11 @@ async function main() {
 
   // 获取账户余额
   const balance = await hre.ethers.provider.getBalance(deployer.address);
-  console.log("💰 账户余额:", hre.ethers.formatEther(balance), "tBNB\n");
+  console.log("💰 账户余额:", hre.ethers.formatEther(balance), "BNB\n");
 
   // 检查余额是否足够
   if (balance < hre.ethers.parseEther("0.01")) {
-    console.error("❌ 错误: 余额不足，至少需要 0.01 tBNB");
+    console.error("❌ 错误: 余额不足，至少需要 0.01 BNB");
     console.log("💡 请从水龙头获取测试币: https://testnet.bnbchain.org/faucet-smart");
     process.exit(1);
   }
@@ -22,7 +22,7 @@ async function main() {
   const contractName = "ZhengDaoSBT";
   const tokenName = "ZhengDao Soulbound Token";
   const tokenSymbol = "ZDSBT";
-  const baseTokenURI = "https://your-domain.com/api/sbt-metadata/";
+  const baseTokenURI = "https://your-domain.com/api/sbt-metadata/"; // TODO: 替换为实际域名
 
   console.log("📋 合约部署参数:");
   console.log("  - 合约名称:", contractName);
@@ -32,10 +32,11 @@ async function main() {
   console.log("");
 
   // 获取合约工厂
-  console.log("⏳ 正在部署合约...");
+  console.log("⏳ 正在编译合约...");
   const ZhengDaoSBT = await hre.ethers.getContractFactory(contractName);
 
   // 部署合约
+  console.log("⏳ 正在部署合约...");
   const sbt = await ZhengDaoSBT.deploy(
     tokenName,
     tokenSymbol,
@@ -86,10 +87,12 @@ async function main() {
   console.log("🎉 部署完成!");
   console.log("=".repeat(60));
   console.log("\n📝 下一步操作:");
-  console.log("1. 更新 .env.local 文件:");
-  console.log(`   NEXT_PUBLIC_ZHENGDAO_SBT_ADDRESS=${address}`);
-  console.log("\n2. 验证合约（需要 BSCSCAN_API_KEY）:");
+  console.log("1. 验证合约:");
   console.log(`   npx hardhat verify --network bnbTestnet ${address} "${tokenName}" "${tokenSymbol}" "${baseTokenURI}"`);
+  console.log("\n2. 测试铸造 SBT:");
+  console.log(`   npx hardhat run scripts/mint-test-sbt.js --network bnbTestnet`);
+  console.log("\n3. 更新 .env.local 文件:");
+  console.log(`   NEXT_PUBLIC_ZHENGDAO_SBT_ADDRESS=${address}`);
   console.log("");
 
   // 返回合约地址供其他脚本使用
