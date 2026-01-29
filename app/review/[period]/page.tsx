@@ -21,9 +21,7 @@ import {
 import {
   getReviewStats,
   getGoalComparisonData,
-  generateGoalComparisonAnalysis,
   analyzeProblemMonths,
-  generateProblemAnalysis,
 } from '@/lib/review-service';
 import { aggregateMeaningfulDays } from '@/lib/chart-utils';
 
@@ -103,14 +101,54 @@ export default function ReviewPeriodPage() {
         const comparisonData = await getGoalComparisonData(address);
         setGoalData(comparisonData);
 
-        // 生成目标对比分析
-        const goalAnalysisText = await generateGoalComparisonAnalysis(comparisonData);
-        setGoalAnalysis(goalAnalysisText);
+        // 生成目标对比分析（通过API）
+        try {
+          const goalResponse = await fetch('/api/review/goal-analysis', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              comparisonData,
+            }),
+          });
 
-        // 分析问题月份
+          if (goalResponse.ok) {
+            const goalData = await goalResponse.json();
+            setGoalAnalysis(goalData.analysis);
+          } else {
+            console.error('目标对比分析生成失败:', await goalResponse.text());
+            setGoalAnalysis('暂时无法生成目标对比分析，请稍后再试。');
+          }
+        } catch (error) {
+          console.error('目标对比分析生成失败:', error);
+          setGoalAnalysis('暂时无法生成目标对比分析，请稍后再试。');
+        }
+
+        // 分析问题月份（通过API）
         const problemMonths = analyzeProblemMonths(comparisonData.monthlyData);
-        const problemAnalysisText = await generateProblemAnalysis(problemMonths);
-        setProblemAnalysis(problemAnalysisText);
+        try {
+          const problemResponse = await fetch('/api/review/problem-analysis', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              problemMonths,
+            }),
+          });
+
+          if (problemResponse.ok) {
+            const problemData = await problemResponse.json();
+            setProblemAnalysis(problemData.analysis);
+          } else {
+            console.error('问题分析报告生成失败:', await problemResponse.text());
+            setProblemAnalysis('暂时无法生成问题分析报告，请稍后再试。');
+          }
+        } catch (error) {
+          console.error('问题分析报告生成失败:', error);
+          setProblemAnalysis('暂时无法生成问题分析报告，请稍后再试。');
+        }
       } catch (error) {
         console.error('加载年度复盘数据失败:', error);
       } finally {

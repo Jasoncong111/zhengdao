@@ -315,19 +315,19 @@ function ClaimSBTPageContent() {
         >
           <button
             onClick={() => handleMint('bnb')}
-            disabled={isMinting || !address}
+            disabled={isMinting || !address || hasMinted}
             className="py-6 bg-[#F3BA2F] text-white font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
             style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
           >
-            {isMinting ? '铸造中...' : '在 BNB Chain 铸造'}
+            {hasMinted ? '已铸造' : isMinting ? '铸造中...' : '在 BNB Chain 铸造'}
           </button>
           <button
             onClick={() => handleMint('solana')}
-            disabled={isMinting || !address}
-            className="py-6 bg-[#9945FF] text-white font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+            disabled={true}
+            className="py-6 bg-gray-400 text-white font-bold text-lg cursor-not-allowed opacity-70"
             style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
           >
-            {isMinting ? '铸造中...' : '在 Solana 铸造'}
+            在 Solana 铸造（即将推出）
           </button>
         </motion.div>
 

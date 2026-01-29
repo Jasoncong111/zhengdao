@@ -26,8 +26,10 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
   const currentIndex = STEPS.findIndex((step) => step.key === currentStep);
 
   return (
-    <div className="flex items-center justify-center gap-2 mb-8">
-      {STEPS.map((step, index) => {
+    <>
+    <div className="overflow-x-auto mb-8 scrollbar-hide">
+      <div className="flex items-center justify-center min-w-max px-4">
+        {STEPS.map((step, index) => {
         const isCompleted = index < currentIndex;
         const isCurrent = index === currentIndex;
 
@@ -35,7 +37,7 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
           <div key={step.key} className="flex items-center">
             {/* 步骤圆点 */}
             <div
-              className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 flex-shrink-0 ${
                 isCompleted
                   ? 'bg-seal text-white'
                   : isCurrent
@@ -62,7 +64,7 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
             {/* 连接线（非最后一个步骤） */}
             {index < STEPS.length - 1 && (
               <div
-                className={`w-12 h-1 mx-2 transition-all duration-300 ${
+                className={`w-8 h-1 mx-1 transition-all duration-300 ${
                   isCompleted ? 'bg-seal' : 'bg-gray-300'
                 }`}
               />
@@ -70,6 +72,18 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
           </div>
         );
       })}
+      </div>
     </div>
+
+    <style jsx>{`
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+    `}</style>
+  </>
   );
 }
