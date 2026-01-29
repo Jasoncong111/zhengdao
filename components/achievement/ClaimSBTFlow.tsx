@@ -12,9 +12,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AchievementLevel } from '@/lib/achievement-system';
 import { getLevelIcon } from '@/lib/achievement-system';
 import { useChainManager } from '@/lib/chain-manager';
-import { useAccount } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 import { useMintSBT } from '@/lib/contracts/sbt';
+import { useSolanaMintSBT } from '@/lib/hooks/useSolanaMintSBT';
 import { SBTMintService } from '@/lib/sbt-mint-service';
+import { ConditionMinter } from '@/lib/condition-minter';
+import { getLevelMintStatusAcrossChains } from '@/lib/db';
+import { estimateGasFee, formatGasFee, GasEstimate } from '@/lib/gas-estimator';
 import toast from 'react-hot-toast';
 
 type ClaimStep = 'confirm' | 'connecting' | 'claiming' | 'success' | 'error';
@@ -42,38 +46,62 @@ export function ClaimSBTFlow({
   const [error, setError] = useState('');
   const [selectedChain, setSelectedChain] = useState<'bnb' | 'solana'>(chain || 'bnb');
   const [hasMinted, setHasMinted] = useState(false);
+  const [mintCondition, setMintCondition] = useState<any>(null);
+  const [gasEstimate, setGasEstimate] = useState<GasEstimate | null>(null);
 
   // 使用链管理器
-  const { isChainConnected, connectChain, getChainInfo, switchChain } = useChainManager();
+  const { isChainConnected, connectChain, getChainInfo, switchChain: switchChainManager } = useChainManager();
 
-  // 使用wagmi获取钱包地址
-  const { address } = useAccount();
+  // 使用wagmi获取钱包地址和当前链
+  const { address, chain: walletChain } = useAccount();
 
-  // 使用mint SBT Hook
-  const { mintSBT, isPending, isConfirming, isConfirmed, hash } = useMintSBT();
+  // 切换链的hook（wagmi的，用于实际切换钱包网络）
+  const { switchChain: switchWalletChain } = useSwitchChain();
 
-  // 检查是否已铸造
+  // 使用mint SBT Hook (BSC)
+  const { mintSBT, isPending: isBSCPending, isConfirming: isBSCConfirming, isConfirmed: isBSCConfirmed, hash: bscHash } = useMintSBT();
+
+  // 使用mint SBT Hook (Solana)
+  const { mintSolanaSBT, isPending: isSolanaPending, isConfirming: isSolanaConfirming, isConfirmed: isSolanaConfirmed, hash: solanaHash, reset: resetSolanaMint } = useSolanaMintSBT();
+
+  // 根据选中的链确定当前状态
+  const isPending = selectedChain === 'bnb' ? isBSCPending : isSolanaPending;
+  const isConfirming = selectedChain === 'bnb' ? isBSCConfirming : isSolanaConfirming;
+  const isConfirmed = selectedChain === 'bnb' ? isBSCConfirmed : isSolanaConfirmed;
+  const hash = selectedChain === 'bnb' ? bscHash : solanaHash;
+
+  // 检查是否已铸造和条件验证
   useEffect(() => {
     const checkMintStatus = async () => {
       if (address && level.level) {
-        const minted = await SBTMintService.hasMinted(address, level.level);
-        setHasMinted(minted);
-        if (minted) {
-          setError('此等级SBT已铸造，每个等级只能铸造一次');
+        // 检查跨链铸造状态
+        const status = await getLevelMintStatusAcrossChains(address, level.level);
+
+        // 检查当前选择的链是否已铸造
+        const hasMintedOnSelectedChain = selectedChain === 'bnb' ? status.bnb : status.solana;
+
+        setHasMinted(hasMintedOnSelectedChain);
+
+        if (hasMintedOnSelectedChain) {
+          setError(`此等级SBT已在${selectedChain === 'bnb' ? 'BSC' : 'Solana'}链上铸造`);
           setCurrentStep('error');
         }
+
+        // 获取完整铸造条件
+        const condition = await ConditionMinter.checkMintCondition(address, level.level);
+        setMintCondition(condition);
       }
     };
 
     checkMintStatus();
-  }, [address, level.level]);
+  }, [address, level.level, selectedChain]);
 
   // 确保当前链与选中的链一致
   useEffect(() => {
     if (selectedChain) {
-      switchChain(selectedChain);
+      switchChainManager(selectedChain);
     }
-  }, [selectedChain, switchChain]);
+  }, [selectedChain, switchChainManager]);
 
   // 监听交易确认状态
   useEffect(() => {
@@ -109,6 +137,23 @@ export function ClaimSBTFlow({
     }
   }, [isPending, isConfirming]);
 
+  // 计算Gas费用估算
+  useEffect(() => {
+    const calculateGasEstimate = async () => {
+      if (!level.level || !days) return;
+
+      try {
+        const metadataURI = `https://zhengdao.io/metadata/${level.level}/0x0000000000000000000000000000000000000001`;
+        const estimate = await estimateGasFee(selectedChain, level.level, days, metadataURI);
+        setGasEstimate(estimate);
+      } catch (error) {
+        console.error('[ClaimSBTFlow] Gas费估算失败:', error);
+      }
+    };
+
+    calculateGasEstimate();
+  }, [selectedChain, level.level, days]);
+
   const handleConfirm = () => {
     setCurrentStep('connecting');
   };
@@ -136,29 +181,113 @@ export function ClaimSBTFlow({
         throw new Error('请先连接钱包');
       }
 
+      // 对于BNB Chain，确保钱包切换到正确的网络（主网或测试网）
+      if (selectedChain === 'bnb') {
+        // 根据环境变量决定使用主网还是测试网
+        const isTestnet = process.env.NEXT_PUBLIC_BNB_CHAIN_TESTNET === 'true';
+        const BSC_CHAIN_ID = isTestnet ? 97 : 56; // 97 = 测试网, 56 = 主网
+        const networkName = isTestnet ? 'BSC 测试网' : 'BSC 主网';
+
+        console.log('[ClaimSBTFlow] 当前钱包网络:', walletChain?.id, walletChain?.name);
+        console.log('[ClaimSBTFlow] 目标网络:', BSC_CHAIN_ID, networkName);
+
+        if (walletChain?.id !== BSC_CHAIN_ID) {
+          console.log(`[ClaimSBTFlow] 需要切换到 ${networkName}`);
+          toast.loading(`正在切换到 ${networkName}...`, { id: 'switch-chain' });
+
+          try {
+            await switchWalletChain?.({ chainId: BSC_CHAIN_ID });
+            console.log('[ClaimSBTFlow] 网络切换命令已发送');
+
+            // 等待网络切换完成（OKX 钱包需要更多时间）
+            toast.loading(`正在等待网络切换完成...`, { id: 'switch-chain' });
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            console.log(`[ClaimSBTFlow] 已切换到 ${networkName}`);
+            toast.success(`已切换到 ${networkName}`, { id: 'switch-chain' });
+          } catch (switchError) {
+            console.error('[ClaimSBTFlow] 切换网络失败:', switchError);
+            toast.error(`请手动在钱包中切换到 ${networkName}（Chain ID: ${BSC_CHAIN_ID}）`, { id: 'switch-chain' });
+            throw new Error(`请在钱包中切换到 ${networkName}后再试`);
+          }
+        } else {
+          console.log(`[ClaimSBTFlow] 已在 ${networkName}，无需切换`);
+          // 即使已在正确网络，也给一点时间让钱包准备
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
+
       // 进入申领流程
       setCurrentStep('claiming');
-
-      // 只支持BNB Chain的合约mint
-      if (selectedChain !== 'bnb') {
-        throw new Error('目前仅支持BNB Chain的SBT铸造，Solana支持即将推出');
-      }
 
       // 准备metadata URI
       const metadataURI = `https://zhengdao.io/metadata/${level.level}/${address}`;
 
-      // 调用真实的合约mint函数
-      toast.loading('正在确认钱包交易...', { id: 'mint-toast' });
+      // 根据选择的链执行不同的铸造逻辑
+      if (selectedChain === 'bnb') {
+        // ========== BSC 链铸造逻辑 ==========
 
-      await mintSBT(
-        address as `0x${string}`,
-        level.level,
-        days,
-        metadataURI
-      );
+        // 检查合约地址是否配置
+        const contractAddress = process.env.NEXT_PUBLIC_ZHENGDAO_SBT_ADDRESS;
+        if (!contractAddress || contractAddress === '0x0000000000000000000000000000000000000000') {
+          console.error('[ClaimSBTFlow] 合约地址未配置，使用模拟模式');
 
-      // 交易已提交，等待确认
-      toast.loading('交易已提交，正在确认...', { id: 'mint-toast' });
+          // 模拟铸造成功
+          toast.loading('模拟铸造中...', { id: 'mint-toast' });
+          await new Promise(resolve => setTimeout(resolve, 2000));
+
+          // 生成模拟的交易哈希
+          const mockTxHash = `0x${Math.random().toString(16).substring(2)}${Math.random().toString(16).substring(2)}`;
+
+          setTxHash(mockTxHash);
+          setCurrentStep('success');
+
+          // 保存铸造记录
+          await SBTMintService.saveMintRecord(
+            address,
+            selectedChain,
+            level.level,
+            mockTxHash,
+            metadataURI
+          );
+
+          if (onClaim) {
+            await onClaim(level.level, selectedChain);
+          }
+
+          toast.success('模拟铸造成功！（合约未部署）', { id: 'mint-toast' });
+          return;
+        }
+
+        // 调用真实的合约mint函数
+        toast.loading('正在确认钱包交易...', { id: 'mint-toast' });
+
+        await mintSBT(
+          address as `0x${string}`,
+          level.level,
+          days,
+          metadataURI
+        );
+
+        // 交易已提交，等待确认
+        toast.loading('交易已提交，正在确认...', { id: 'mint-toast' });
+
+      } else if (selectedChain === 'solana') {
+        // ========== Solana 链铸造逻辑 ==========
+
+        // 调用Solana铸造函数
+        toast.loading('正在确认Solana钱包交易...', { id: 'mint-toast' });
+
+        await mintSolanaSBT(
+          address,
+          level.level,
+          days,
+          metadataURI
+        );
+
+        // 交易已提交，等待确认
+        toast.loading('交易已提交，正在确认...', { id: 'mint-toast' });
+      }
     } catch (err) {
       console.error('[ClaimSBTFlow] Mint error:', err);
       const errorMessage = err instanceof Error ? err.message : '申领失败';
@@ -267,25 +396,73 @@ export function ClaimSBTFlow({
                 >
                   <span className="chain-icon">🟡</span>
                   <span className="chain-name">BNB Chain</span>
-                  <span className="chain-status">可用</span>
+                  <span className="chain-status">
+                    {mintCondition?.hasMintedOnBSC ? '已铸造' : '可用'}
+                  </span>
                 </button>
                 <button
                   className={`chain-option ${selectedChain === 'solana' ? 'active' : ''}`}
                   onClick={() => setSelectedChain('solana')}
                   type="button"
-                  disabled
                 >
                   <span className="chain-icon">🟣</span>
                   <span className="chain-name">Solana</span>
-                  <span className="chain-status coming-soon">即将推出</span>
+                  <span className="chain-status">
+                    {mintCondition?.hasMintedOnSolana ? '已铸造' : '可用'}
+                  </span>
                 </button>
               </div>
             </div>
 
+            {/* 条件验证显示 */}
+            {mintCondition && (
+              <div className="condition-verification">
+                <h4>铸造条件检查</h4>
+                <div className="condition-item">
+                  <span>打卡天数</span>
+                  <span className={mintCondition.userDays >= mintCondition.requiredDays ? 'met' : 'unmet'}>
+                    {mintCondition.userDays}/{mintCondition.requiredDays} 天
+                    {mintCondition.userDays >= mintCondition.requiredDays ? ' ✓' : ''}
+                  </span>
+                </div>
+                <div className="condition-item">
+                  <span>等级要求</span>
+                  <span className="met">Level {level.level} 达成</span>
+                </div>
+                <div className="condition-item">
+                  <span>是否已铸造</span>
+                  <span className={!hasMinted ? 'met' : 'unmet'}>
+                    {!hasMinted ? '未铸造' : selectedChain === 'bnb' ? 'BSC已铸造' : 'Solana已铸造'}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Gas费估算 */}
+            {gasEstimate && (
+              <div className="gas-estimate-banner">
+                <div className="gas-estimate-header">
+                  <span className="gas-icon">⛽</span>
+                  <span className="gas-title">预估Gas费</span>
+                </div>
+                <div className="gas-estimate-content">
+                  <span className="gas-primary">{formatGasFee(gasEstimate).primary}</span>
+                  <span className="gas-note">用户需自行支付</span>
+                </div>
+                <div className="gas-estimate-details">
+                  {formatGasFee(gasEstimate).details.map((detail, index) => (
+                    <div key={index} className="gas-detail-item">
+                      {detail}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Free Mint 标识 */}
             <div className="free-mint-banner">
               <span className="free-mint-icon">🎁</span>
-              <span className="free-mint-text">Free Mint - 完全免费铸造</span>
+              <span className="free-mint-text">SBT铸造 - 无需版税费用</span>
             </div>
 
             <div className="claim-actions">
@@ -609,6 +786,113 @@ export function ClaimSBTFlow({
 
         .chain-status.coming-soon {
           background: #9CA3AF;
+        }
+
+        .condition-verification {
+          padding: 1.25rem;
+          background: #f9f9f9;
+          border: 2px solid #e0e0e0;
+          margin-bottom: 1.5rem;
+        }
+
+        .condition-verification h4 {
+          font-size: 1rem;
+          font-weight: 600;
+          margin: 0 0 1rem 0;
+          color: #1a1a1a;
+          font-family: 'Georgia', serif;
+        }
+
+        .condition-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem 0;
+          border-bottom: 1px solid #e0e0e0;
+          font-size: 0.875rem;
+        }
+
+        .condition-item:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .condition-item:first-child {
+          padding-top: 0;
+        }
+
+        .condition-item > span:first-child {
+          color: #666;
+          font-weight: 500;
+        }
+
+        .condition-item > span:last-child {
+          font-weight: 600;
+        }
+
+        .condition-item .met {
+          color: #10B981;
+        }
+
+        .condition-item .unmet {
+          color: #EF4444;
+        }
+
+        .gas-estimate-banner {
+          padding: 1.25rem;
+          background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+          border: 2px solid #f59e0b;
+          margin-bottom: 1rem;
+        }
+
+        .gas-estimate-header {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .gas-icon {
+          font-size: 1.25rem;
+        }
+
+        .gas-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #92400e;
+          font-family: 'Georgia', serif;
+        }
+
+        .gas-estimate-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.75rem;
+        }
+
+        .gas-primary {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #78350f;
+        }
+
+        .gas-note {
+          font-size: 0.75rem;
+          color: #92400e;
+          font-style: italic;
+        }
+
+        .gas-estimate-details {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          padding-top: 0.5rem;
+          border-top: 1px solid #fbbf24;
+        }
+
+        .gas-detail-item {
+          font-size: 0.75rem;
+          color: #92400e;
         }
 
         .free-mint-banner {

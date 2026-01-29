@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清除数据库 - 证道</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            background-color: #FFFEF2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #1a1a1a;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        button {
+            background-color: #1a1a1a;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            margin: 10px 5px;
+            min-width: 150px;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        .success {
+            color: #2e7d32;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .error {
+            color: #c62828;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>证道 - 清除数据库</h1>
+        <p>
+            点击下面的按钮将清除所有本地数据，包括打卡记录、成就数据等。
+            <br><br>
+            <strong>注意：此操作不可恢复！</strong>
+        </p>
+        <button onclick="clearDatabase()">清除数据库</button>
+        <button onclick="goBack()">返回</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        function clearDatabase() {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = '正在清除数据库...';
+
+            const deleteReq = indexedDB.deleteDatabase('ZhengDaoDB');
+
+            deleteReq.onsuccess = function() {
+                messageDiv.innerHTML = '<div class="success">✓ 数据库已清除！页面将在3秒后刷新...</div>';
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 3000);
+            };
+
+            deleteReq.onerror = function() {
+                messageDiv.innerHTML = '<div class="error">清除失败，请手动清除浏览器缓存</div>';
+            };
+
+            deleteReq.onblocked = function() {
+                messageDiv.innerHTML = '<div class="error">清除被阻止，请关闭所有标签页后重试</div>';
+            };
+        }
+
+        function goBack() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

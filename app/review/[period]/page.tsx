@@ -20,7 +20,6 @@ import {
 } from '@/components/charts';
 import {
   getReviewStats,
-  generateAIReviewSummary,
   getGoalComparisonData,
   generateGoalComparisonAnalysis,
   analyzeProblemMonths,
@@ -56,11 +55,33 @@ export default function ReviewPeriodPage() {
         const reviewStats = await getReviewStats(period, address);
         setStats(reviewStats);
 
-        // 生成AI总结
+        // 生成AI总结（通过API）
         setIsAiLoading(true);
-        const summary = await generateAIReviewSummary(period, reviewStats);
-        setAiSummary(summary);
-        setIsAiLoading(false);
+        try {
+          const response = await fetch('/api/review/ai-summary', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              period,
+              stats: reviewStats,
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            setAiSummary(data.summary);
+          } else {
+            console.error('AI总结生成失败:', await response.text());
+            setAiSummary('暂时无法生成AI总结，请稍后再试。');
+          }
+        } catch (error) {
+          console.error('AI总结生成失败:', error);
+          setAiSummary('暂时无法生成AI总结，请稍后再试。');
+        } finally {
+          setIsAiLoading(false);
+        }
       } catch (error) {
         console.error('加载复盘数据失败:', error);
         setIsAiLoading(false);

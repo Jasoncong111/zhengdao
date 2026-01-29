@@ -215,12 +215,12 @@ export class ZhengDaoDatabase extends Dexie {
 
     // 定义数据库版本和表结构
     this.version(1).stores({
-      reflections: '++id, date, walletAddress, createdAt', // 索引字段
+      reflections: '++id, [date+walletAddress], createdAt', // 复合索引：date+walletAddress
     });
 
     // 版本2: 添加成就系统相关表
     this.version(2).stores({
-      reflections: '++id, date, walletAddress, createdAt',
+      reflections: '++id, [date+walletAddress], createdAt',
       userAchievements: '++id, [walletAddress+chain], currentLevel, totalCheckInDays',
       checkInRecords: '++id, [walletAddress+chain], checkInDate, timestamp'
     });
@@ -233,7 +233,7 @@ export class ZhengDaoDatabase extends Dexie {
 
     // 版本3: 添加人生目标表
     this.version(3).stores({
-      reflections: '++id, date, walletAddress, createdAt',
+      reflections: '++id, [date+walletAddress], createdAt',
       userAchievements: '++id, [walletAddress+chain], currentLevel, totalCheckInDays',
       checkInRecords: '++id, [walletAddress+chain], checkInDate, timestamp',
       lifeGoals: '++id, walletAddress, createdAt'
@@ -247,7 +247,7 @@ export class ZhengDaoDatabase extends Dexie {
 
     // 版本4: 添加SBT铸造记录表
     this.version(4).stores({
-      reflections: '++id, date, walletAddress, createdAt',
+      reflections: '++id, [date+walletAddress], createdAt',
       userAchievements: '++id, [walletAddress+chain], currentLevel, totalCheckInDays',
       checkInRecords: '++id, [walletAddress+chain], checkInDate, timestamp',
       lifeGoals: '++id, walletAddress, createdAt',
@@ -258,6 +258,37 @@ export class ZhengDaoDatabase extends Dexie {
     this.version(4).upgrade(async tx => {
       console.log('[DB] Upgrading from v3 to v4...');
       // 迁移现有数据（如果需要）
+    });
+
+    // 版本5: 添加walletAddress单独索引以支持查询
+    this.version(5).stores({
+      reflections: '++id, walletAddress, [date+walletAddress], createdAt',
+      userAchievements: '++id, [walletAddress+chain], currentLevel, totalCheckInDays',
+      checkInRecords: '++id, [walletAddress+chain], checkInDate, timestamp',
+      lifeGoals: '++id, walletAddress, createdAt',
+      sbtMintRecords: '++id, [walletAddress+level], chain, txHash, mintedAt'
+    });
+
+    // 数据迁移逻辑: version(4) → version(5)
+    this.version(5).upgrade(async tx => {
+      console.log('[DB] Upgrading from v4 to v5 - 添加walletAddress单独索引...');
+      // 不需要数据迁移，只是索引结构的变更
+    });
+
+    // 版本6: 添加跨链铸造记录索引
+    this.version(6).stores({
+      reflections: '++id, walletAddress, [date+walletAddress], createdAt',
+      userAchievements: '++id, [walletAddress+chain], currentLevel, totalCheckInDays',
+      checkInRecords: '++id, [walletAddress+chain], checkInDate, timestamp',
+      lifeGoals: '++id, walletAddress, createdAt',
+      sbtMintRecords: '++id, [walletAddress+level+chain], chain, txHash, mintedAt'
+      // 添加复合索引: walletAddress + level + chain，支持跨链查询
+    });
+
+    // 数据迁移逻辑: version(5) → version(6)
+    this.version(6).upgrade(async tx => {
+      console.log('[DB] Upgrading from v5 to v6 - 添加跨链铸造索引...');
+      // 不需要数据迁移，只是索引结构的变更，支持按链类型查询
     });
   }
 }
@@ -302,3 +333,72 @@ export function handleDBError(error: unknown, context: string): never {
     throw new Error(`数据库操作失败: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
+
+/**
+ * 获取用户在所有链上的铸造记录
+ * @param walletAddress 钱包地址
+ * @returns 分链的铸造记录
+ */
+export async function getUserMintRecordsAcrossChains(
+  walletAddress: string
+): Promise<{
+  bnb: SBTMintRecord[];
+  solana: SBTMintRecord[];
+  total: number;
+}> {
+  try {
+    const bnbRecords = await db.sbtMintRecords
+      .where('[walletAddress+chain]')
+      .equals([walletAddress, 'bnb'])
+      .toArray();
+
+    const solanaRecords = await db.sbtMintRecords
+      .where('[walletAddress+chain]')
+      .equals([walletAddress, 'solana'])
+      .toArray();
+
+    return {
+      bnb: bnbRecords,
+      solana: solanaRecords,
+      total: bnbRecords.length + solanaRecords.length,
+    };
+  } catch (error) {
+    handleDBError(error, 'getUserMintRecordsAcrossChains');
+  }
+}
+
+/**
+ * 获取用户指定等级在所有链上的铸造状态
+ * @param walletAddress 钱包地址
+ * @param level 等级
+ * @returns 分链的铸造状态
+ */
+export async function getLevelMintStatusAcrossChains(
+  walletAddress: string,
+  level: number
+): Promise<{
+  bnb: boolean;
+  solana: boolean;
+  any: boolean;
+}> {
+  try {
+    const bnbCount = await db.sbtMintRecords
+      .where('[walletAddress+level+chain]')
+      .equals([walletAddress, level, 'bnb'])
+      .count();
+
+    const solanaCount = await db.sbtMintRecords
+      .where('[walletAddress+level+chain]')
+      .equals([walletAddress, level, 'solana'])
+      .count();
+
+    return {
+      bnb: bnbCount > 0,
+      solana: solanaCount > 0,
+      any: bnbCount > 0 || solanaCount > 0,
+    };
+  } catch (error) {
+    handleDBError(error, 'getLevelMintStatusAcrossChains');
+  }
+}
+

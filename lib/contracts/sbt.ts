@@ -92,17 +92,28 @@ export function useMintSBT() {
       throw new Error('SBT合约地址未配置');
     }
 
+    console.log('[SBT] 开始铸造流程...');
+    console.log('[SBT] 合约地址:', SBT_CONTRACT_ADDRESS);
+    console.log('[SBT] 接收地址:', to);
+    console.log('[SBT] 等级:', level);
+    console.log('[SBT] 天数:', days);
+    console.log('[SBT] Metadata URI:', metadataURI);
+
     try {
-      await writeContract({
+      console.log('[SBT] 调用 writeContract...');
+      const result = await writeContract({
         address: SBT_CONTRACT_ADDRESS,
         abi: ZHENGDAO_SBT_ABI,
         functionName: 'mintSBT',
         args: [to, BigInt(level), BigInt(days), metadataURI],
       } as any);
 
+      console.log('[SBT] writeContract 返回:', result);
       console.log('[SBT] Mint transaction submitted:', hash);
+      return result;
     } catch (err) {
       console.error('[SBT] Mint error:', err);
+      console.error('[SBT] Error details:', JSON.stringify(err, null, 2));
       throw err;
     }
   };

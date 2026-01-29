@@ -173,6 +173,58 @@ export default function ProfilePage() {
         {/* 打卡时间线 */}
         <CheckInTimeline limit={5} />
 
+        {/* 挑战 - 即将推出 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-paper border-2 border-ink/20 p-6 text-center relative overflow-hidden"
+        >
+          {/* 即将推出标签 */}
+          <div className="absolute top-4 right-4">
+            <span className="px-3 py-1 text-xs font-bold bg-ink/10 text-ink/60 border-2 border-ink/30">
+              即将推出
+            </span>
+          </div>
+
+          {/* 标题 */}
+          <h2
+            className="text-2xl font-bold text-ink mb-2"
+            style={{ fontFamily: 'Georgia, serif' }}
+          >
+            挑战池
+          </h2>
+
+          {/* 描述 */}
+          <p className="text-ink/60 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+            入金参与挑战，完成打卡目标瓜分奖励池
+          </p>
+
+          {/* 功能预览 */}
+          <div className="grid grid-cols-3 gap-3 mb-4 text-sm">
+            <div className="bg-white border border-ink/20 p-3">
+              <div className="text-ink/60 mb-1">7天挑战</div>
+              <div className="font-bold text-ink">0.1 BNB起</div>
+            </div>
+            <div className="bg-white border border-ink/20 p-3">
+              <div className="text-ink/60 mb-1">30天挑战</div>
+              <div className="font-bold text-ink">0.5 BNB起</div>
+            </div>
+            <div className="bg-white border border-ink/20 p-3">
+              <div className="text-ink/60 mb-1">100天挑战</div>
+              <div className="font-bold text-ink">1 BNB起</div>
+            </div>
+          </div>
+
+          {/* 按钮链接 */}
+          <button
+            onClick={() => router.push('/coming-soon')}
+            className="px-6 py-2 bg-ink/10 text-ink font-bold border-2 border-ink/30 hover:bg-ink/20 transition-colors"
+            style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+          >
+            了解更多
+          </button>
+        </motion.div>
+
         {/* SBT成就 */}
         <SBTShowcase onClaim={handleClaimSBT} />
 

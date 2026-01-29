@@ -11,6 +11,9 @@ import toast from 'react-hot-toast';
 import { ReflectionService } from '@/lib/storage';
 import { db } from '@/lib/db';
 import { generateSeedData, clearSeedData } from '@/lib/seed-data-service';
+import DataGeneratorPanel from '@/components/admin/DataGeneratorPanel';
+import ContentAnalyticsDashboard from '@/components/admin/ContentAnalyticsDashboard';
+import AchievementAnalyticsDashboard from '@/components/admin/AchievementAnalyticsDashboard';
 
 // 硬编码的管理员密码
 const ADMIN_PASSWORD = 'zhengdao2026';
@@ -31,6 +34,7 @@ export default function AdminPage() {
   const [generating, setGenerating] = useState(false);
   const [generateProgress, setGenerateProgress] = useState({ current: 0, total: 0, message: '' });
   const [demoWalletAddress, setDemoWalletAddress] = useState('demo-user-wallet');
+  const [activeTab, setActiveTab] = useState<'overview' | 'content' | 'achievement' | 'generator'>('overview');
 
   // 登录处理
   const handleLogin = (e: React.FormEvent) => {
@@ -238,15 +242,89 @@ export default function AdminPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* 平台数据统计卡片 */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <h2 className="text-lg font-bold text-ink mb-4 font-serif tracking-widest uppercase">
-            平台数据概览
-          </h2>
+        {/* 标签导航 */}
+        <div className="mb-6 border-b-2 border-ink">
+          <div className="flex gap-8">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`pb-2 px-1 font-serif font-bold transition-colors ${
+                activeTab === 'overview'
+                  ? 'text-seal border-b-2 border-seal'
+                  : 'text-ink hover:text-seal'
+              }`}
+            >
+              平台概览
+            </button>
+            <button
+              onClick={() => setActiveTab('content')}
+              className={`pb-2 px-1 font-serif font-bold transition-colors ${
+                activeTab === 'content'
+                  ? 'text-seal border-b-2 border-seal'
+                  : 'text-ink hover:text-seal'
+              }`}
+            >
+              内容数据
+            </button>
+            <button
+              onClick={() => setActiveTab('achievement')}
+              className={`pb-2 px-1 font-serif font-bold transition-colors ${
+                activeTab === 'achievement'
+                  ? 'text-seal border-b-2 border-seal'
+                  : 'text-ink hover:text-seal'
+              }`}
+            >
+              成就数据
+            </button>
+            <button
+              onClick={() => setActiveTab('generator')}
+              className={`pb-2 px-1 font-serif font-bold transition-colors ${
+                activeTab === 'generator'
+                  ? 'text-seal border-b-2 border-seal'
+                  : 'text-ink hover:text-seal'
+              }`}
+            >
+              数据生成器
+            </button>
+          </div>
+        </div>
+
+        {/* 标签内容 */}
+        {activeTab === 'generator' && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <DataGeneratorPanel />
+          </motion.div>
+        )}
+
+        {activeTab === 'content' && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <ContentAnalyticsDashboard />
+          </motion.div>
+        )}
+
+        {activeTab === 'achievement' && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <AchievementAnalyticsDashboard />
+          </motion.div>
+        )}
+
+        {/* 平台数据统计卡片（仅在概览标签显示） */}
+        {activeTab === 'overview' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <h2 className="text-lg font-bold text-ink mb-4 font-serif tracking-widest uppercase">
+              平台数据概览
+            </h2>
 
           {loading ? (
             <div className="text-center py-12">
@@ -311,55 +389,21 @@ export default function AdminPage() {
               <p className="text-ink/60 font-serif">暂无数据</p>
             </div>
           )}
-        </motion.div>
+          </motion.div>
+        )}
 
-        {/* 管理功能区域 */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <h2 className="text-lg font-bold text-ink mb-4 font-serif tracking-widest uppercase">
-            管理功能
-          </h2>
+        {/* 管理功能区域（仅在概览标签显示） */}
+        {activeTab === 'overview' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <h2 className="text-lg font-bold text-ink mb-4 font-serif tracking-widest uppercase">
+              管理功能
+            </h2>
 
-          <div className="space-y-4">
-            {/* 一键生成演示数据 */}
-            <div className="border-2 border-ink bg-white p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-ink font-serif mb-2">
-                    一键生成演示数据
-                  </h3>
-                  <p className="text-sm text-ink/60 font-serif mb-4">
-                    为指定钱包地址生成过去60天的模拟打卡数据，包含随机的是/否选择和复盘文字。
-                  </p>
-                  <div className="flex items-center gap-2 text-xs text-ink/40 font-serif">
-                    <span className="px-2 py-1 border border-ink/30">任务B</span>
-                    <span>由 AI-F 员工负责实现</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 钱包地址输入 */}
-              <div className="mb-4">
-                <label className="block text-xs font-bold text-ink mb-2 font-serif">
-                  演示钱包地址
-                </label>
-                <input
-                  type="text"
-                  value={demoWalletAddress}
-                  onChange={(e) => setDemoWalletAddress(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-ink focus:outline-none focus:border-seal font-serif text-sm"
-                  style={{ borderRadius: 0 }}
-                  placeholder="输入钱包地址"
-                  disabled={generating}
-                />
-                <p className="text-xs text-ink/40 font-serif mt-2">
-                  提示：数据将保存到此钱包地址下，可以在主页查看
-                </p>
-              </div>
-
+            <div className="space-y-4">
               {/* 进度显示 */}
               {generating && (
                 <div className="mb-4 p-4 border-2 border-seal bg-seal/5">

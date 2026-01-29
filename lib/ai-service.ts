@@ -219,6 +219,7 @@ async function callMiniMaxAPI(prompt: string, maxTokens: number = 500): Promise<
 
 /**
  * DeepSeek API 调用
+ * 支持 DeepSeek 官方 API 和硅基流动 API
  */
 async function callDeepSeekAPI(prompt: string, maxTokens: number = 500): Promise<AIResponse> {
   const apiKey = process.env.DEEPSEEK_API_KEY;
@@ -227,8 +228,18 @@ async function callDeepSeekAPI(prompt: string, maxTokens: number = 500): Promise
     throw new AIServiceError('DEEPSEEK_API_KEY 未配置', undefined, 'deepseek');
   }
 
+  // 支持硅基流动 API (https://api.siliconflow.cn)
+  const apiUrl = process.env.DEEPSEEK_API_URL || 'https://api.deepseek.com/v1/chat/completions';
+  const model = process.env.DEEPSEEK_MODEL || 'deepseek-chat';
+
+  // 解析 URL
+  const url = new URL(apiUrl);
+  const isHttps = url.protocol === 'https:';
+  const hostname = url.hostname;
+  const path = url.pathname + url.search;
+
   const requestBody = JSON.stringify({
-    model: 'deepseek-chat',
+    model,
     messages: [
       {
         role: 'system',
@@ -244,8 +255,9 @@ async function callDeepSeekAPI(prompt: string, maxTokens: number = 500): Promise
   });
 
   const options = {
-    hostname: 'api.deepseek.com',
-    path: '/v1/chat/completions',
+    protocol: url.protocol,
+    hostname,
+    path,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

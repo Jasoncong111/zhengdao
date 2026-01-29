@@ -59,13 +59,15 @@ export function SBTShowcase({ onClaim }: SBTShowcaseProps) {
 
         // 获取已领取的等级
         const claimedLevels: number[] = [];
-        achievements.forEach(achievement => {
-          achievement.sbtClaimed.forEach((claimed, index) => {
-            if (claimed && !claimedLevels.includes(index + 1)) {
-              claimedLevels.push(index + 1);
-            }
+        if (achievements && achievements.length > 0) {
+          achievements.forEach(achievement => {
+            achievement.sbtClaimed.forEach((claimed, index) => {
+              if (claimed && !claimedLevels.includes(index + 1)) {
+                claimedLevels.push(index + 1);
+              }
+            });
           });
-        });
+        }
 
         // 计算可领取的等级
         const unlocked = getUnlockedLevels(uniqueDates.size);

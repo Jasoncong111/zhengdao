@@ -11,6 +11,7 @@ import {
   useDisconnect,
   useBalance,
   useReadContract,
+  useSwitchChain,
 } from 'wagmi';
 import { motion } from 'framer-motion';
 
@@ -34,9 +35,10 @@ function HomePageContent() {
   const isDemoMode = searchParams.get('demo') === 'true';
 
   // Wallet hooks
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chain } = useAccount();
   const { connect, connectors, isPending: connectPending } = useConnect();
   const { disconnect } = useDisconnect();
+  const { switchChain } = useSwitchChain();
 
   // Skip mode hooks
   const { isSkipMode, demoAddress, enableSkipMode, disableSkipMode } = useSkipMode();
@@ -102,6 +104,47 @@ function HomePageContent() {
   // Handle check-in click - navigate to check-in page
   const handleCheckInClick = () => {
     router.push('/check-in');
+  };
+
+  // Handle wallet connect with network switch
+  const handleConnectWallet = async () => {
+    try {
+      console.log('[HomePage] 开始连接钱包...');
+
+      // 连接钱包
+      await connect({ connector: connectors[0] });
+
+      console.log('[HomePage] 钱包已连接，当前网络:', chain?.id, chain?.name);
+
+      // 连接成功后，检查并切换到正确的网络（主网或测试网）
+      const isTestnet = process.env.NEXT_PUBLIC_BNB_CHAIN_TESTNET === 'true';
+      const BSC_CHAIN_ID = isTestnet ? 97 : 56; // 97 = 测试网, 56 = 主网
+      const networkName = isTestnet ? 'BSC 测试网' : 'BSC 主网';
+
+      // 给一点时间让状态更新
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // 再次检查当前网络
+      if (chain?.id !== BSC_CHAIN_ID) {
+        console.log(`[HomePage] 当前不在 ${networkName}，尝试切换...`);
+        toast.loading(`正在切换到 ${networkName}...`, { id: 'switch-network' });
+
+        try {
+          await switchChain?.({ chainId: BSC_CHAIN_ID });
+          toast.success(`已切换到 ${networkName}`, { id: 'switch-network' });
+          console.log(`[HomePage] 已切换到 ${networkName}`);
+        } catch (switchError) {
+          console.error('[HomePage] 切换网络失败:', switchError);
+          toast.error(`请手动在钱包中切换到 ${networkName}`, { id: 'switch-network' });
+        }
+      } else {
+        console.log(`[HomePage] 已在 ${networkName}`);
+        toast.success(`已连接到 ${networkName}`, { id: 'switch-network' });
+      }
+    } catch (error) {
+      console.error('[HomePage] 连接钱包失败:', error);
+      toast.error('连接钱包失败，请重试');
+    }
   };
 
   // Check onboarding status when wallet connects
@@ -207,7 +250,7 @@ function HomePageContent() {
         {!isConnected && !isSkipMode && (
           <div className="space-y-3">
             <button
-              onClick={() => connect({ connector: connectors[0] })}
+              onClick={handleConnectWallet}
               disabled={connectPending}
               className="w-full py-3 bg-ink text-paper font-bold font-serif hover:bg-ink/90 transition-colors"
               style={{ borderRadius: 0, opacity: connectPending ? 0.6 : 1 }}

@@ -197,7 +197,7 @@ export default function CheckInPage() {
   const handlePhotoComplete = () => {
     toast.success('打卡完成！');
     setTimeout(() => {
-      router.push('/');
+      router.push('/profile');
     }, 1500);
   };
 
@@ -228,24 +228,62 @@ export default function CheckInPage() {
   if (hasCheckedIn) {
     return (
       <div className="min-h-screen bg-[#FFFEF2] flex items-center justify-center p-6">
-        <div className="max-w-md w-full text-center space-y-6">
-          <div className="text-6xl">完成</div>
-          <h1
-            className="text-3xl font-bold text-ink"
-            style={{ fontFamily: 'Georgia, serif' }}
-          >
-            今日已打卡
-          </h1>
-          <p className="text-ink/60" style={{ fontFamily: 'Georgia, serif' }}>
-            明天再来吧
-          </p>
-          <button
-            onClick={() => router.push('/')}
-            className="px-6 py-3 bg-ink text-paper font-bold"
-            style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
-          >
-            返回首页
-          </button>
+        <div className="max-w-md w-full space-y-8">
+          {/* 顶部成功提示 */}
+          <div className="text-center space-y-4">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', duration: 0.5 }}
+              className="text-6xl text-ink"
+            >
+              ✓
+            </motion.div>
+            <h1
+              className="text-3xl font-bold text-ink"
+              style={{ fontFamily: 'Georgia, serif' }}
+            >
+              今日已打卡
+            </h1>
+            <p className="text-ink/60" style={{ fontFamily: 'Georgia, serif' }}>
+              明天再来吧，修行贵在坚持
+            </p>
+          </div>
+
+          {/* 功能导航按钮 */}
+          <div className="space-y-3">
+            <button
+              onClick={() => router.push('/profile')}
+              className="w-full px-6 py-4 bg-ink text-paper font-bold text-lg hover:bg-ink/90 transition-colors"
+              style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+            >
+              个人主页
+            </button>
+
+            <button
+              onClick={() => router.push('/review')}
+              className="w-full px-6 py-4 bg-white text-ink font-bold text-lg border-2 border-ink hover:bg-ink/5 transition-colors"
+              style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+            >
+              复盘数据
+            </button>
+
+            <button
+              onClick={() => router.push('/coming-soon')}
+              className="w-full px-6 py-4 bg-white text-ink font-bold text-lg border-2 border-ink hover:bg-ink/5 transition-colors"
+              style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+            >
+              即将推出
+            </button>
+
+            <button
+              onClick={() => router.push('/')}
+              className="w-full px-6 py-3 bg-transparent text-ink/70 font-medium hover:text-ink transition-colors"
+              style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+            >
+              返回首页
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -315,7 +353,14 @@ export default function CheckInPage() {
               className="space-y-6"
             >
               <div className="text-center space-y-2">
-                <div className="text-6xl">🎉</div>
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', duration: 0.5 }}
+                  className="text-6xl text-ink"
+                >
+                  ✓
+                </motion.div>
                 <h2
                   className="text-3xl font-bold text-ink"
                   style={{ fontFamily: 'Georgia, serif' }}
@@ -330,16 +375,47 @@ export default function CheckInPage() {
                 onPhotosChange={setPhotos}
               />
 
-              <div className="flex gap-3">
+              {/* 完成后导航选项 */}
+              <div className="space-y-3">
                 <button
                   onClick={handlePhotoComplete}
-                  className="flex-1 py-4 bg-ink text-paper font-bold text-lg"
+                  className="w-full px-6 py-4 bg-ink text-paper font-bold text-lg hover:bg-ink/90 transition-colors"
                   style={{
                     borderRadius: 0,
                     fontFamily: 'Georgia, serif',
                   }}
                 >
-                  完成
+                  个人主页
+                </button>
+
+                <button
+                  onClick={() => router.push('/review')}
+                  className="w-full px-6 py-4 bg-white text-ink font-bold text-lg border-2 border-ink hover:bg-ink/5 transition-colors"
+                  style={{
+                    borderRadius: 0,
+                    fontFamily: 'Georgia, serif',
+                  }}
+                >
+                  复盘数据
+                </button>
+
+                <button
+                  onClick={() => router.push('/coming-soon')}
+                  className="w-full px-6 py-4 bg-white text-ink font-bold text-lg border-2 border-ink hover:bg-ink/5 transition-colors"
+                  style={{
+                    borderRadius: 0,
+                    fontFamily: 'Georgia, serif',
+                  }}
+                >
+                  即将推出
+                </button>
+
+                <button
+                  onClick={() => router.push('/')}
+                  className="w-full px-6 py-3 bg-transparent text-ink/70 font-medium hover:text-ink transition-colors"
+                  style={{ borderRadius: 0, fontFamily: 'Georgia, serif' }}
+                >
+                  返回首页
                 </button>
               </div>
             </motion.div>

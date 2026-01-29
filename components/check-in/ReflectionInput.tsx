@@ -33,10 +33,19 @@ export function ReflectionInput({
 
   /** 提交处理 */
   const handleSubmit = () => {
-    if (content.trim().length === 0) {
+    const trimmedContent = content.trim();
+
+    if (trimmedContent.length === 0) {
       return;
     }
-    onSubmit(content.trim());
+
+    // 检查字数是否足够
+    if (trimmedContent.length < 10) {
+      alert('反思内容太短，请至少输入10个字');
+      return;
+    }
+
+    onSubmit(trimmedContent);
   };
 
   return (
@@ -79,9 +88,13 @@ export function ReflectionInput({
             fontFamily: 'Georgia, serif',
           }}
         />
-        <div className="flex justify-between text-xs text-ink/40">
-          <span>支持多行输入，无字数限制</span>
-          <span>{content.length} 字</span>
+        <div className="flex justify-between text-xs">
+          <span className={content.trim().length < 10 ? 'text-red-500' : 'text-ink/40'}>
+            {content.trim().length < 10 ? `还需 ${10 - content.trim().length} 字` : '字数符合要求'}
+          </span>
+          <span className={content.trim().length < 10 ? 'text-red-500 font-bold' : 'text-ink/40'}>
+            {content.trim().length} / 10 字
+          </span>
         </div>
       </div>
 
@@ -89,7 +102,7 @@ export function ReflectionInput({
       {content.length === 0 && !structuredData && (
         <div className="p-4 bg-ink/5 border border-ink/10">
           <p className="text-sm text-ink/60 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
-            复盘建议：
+            复盘建议（至少10个字）：
           </p>
           <ul className="text-sm text-ink/60 space-y-1">
             <li>• 今天学到了什么？</li>
@@ -200,14 +213,14 @@ export function ReflectionInput({
         )}
         <button
           onClick={handleSubmit}
-          disabled={content.trim().length === 0}
+          disabled={content.trim().length < 10}
           className="flex-1 py-3 bg-seal text-paper font-bold disabled:opacity-50 disabled:cursor-not-allowed"
           style={{
             borderRadius: 0,
             fontFamily: 'Georgia, serif',
           }}
         >
-          继续下一步
+          {content.trim().length < 10 ? `还需${10 - content.trim().length}字` : '继续下一步'}
         </button>
       </div>
     </motion.div>
