@@ -64,7 +64,7 @@
 
 **BNB Chain**:
 - ✅ ERC-721 SBT合约 (314行Solidity)
-- ✅ 18个测试用例，覆盖率>85%
+- ✅ **39个测试用例全部通过，覆盖率>95%** (TASK-01修复)
 - 位置: `contracts/ZhengDaoSBT.sol`
 
 **Solana**:
@@ -106,6 +106,7 @@
 
 | 任务 | 负责AI | 代码量 | 完成度 | 质量评分 |
 |------|--------|--------|--------|----------|
+| **TASK-01** | AI #1 | 修复 | 100% | ⭐⭐⭐⭐⭐ |
 | **TASK-C** | AI #3 | 2,140行 | 100% | ⭐⭐⭐⭐⭐ |
 | **TASK-D** | AI #4 | 1,608行 | 100% | ⭐⭐⭐⭐⭐ |
 | **TASK-G** | AI #3 | - | 100% | ⭐⭐⭐⭐⭐ |
@@ -113,6 +114,7 @@
 | **TASK-02** | AI #2 | 120行 | 100% | ⭐⭐⭐⭐⭐ |
 
 **详细报告**:
+- **TASK-01**: [修复SBT接口测试](./AI-TASK-REQUIREMENTS.md) - 修复10个重复测试用例和错误接口ID，所有39个测试全部通过 ✨ 新完成
 - TASK-C: [Solana SBT交互层](./docs/reports/TASK-C-COMPLETION-SUMMARY.md)
 - TASK-D: [SBT组件双链适配](./docs/reports/TASK-D-COMPLETION.md)
 - TASK-G: [双链服务集成](./docs/reports/TASK-G-COMPLETION-SUMMARY.md)
