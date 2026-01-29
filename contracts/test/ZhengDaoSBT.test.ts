@@ -361,65 +361,28 @@ describe("ZhengDaoSBT", function () {
       ).to.be.revertedWithCustomError(sbt, "OwnableUnauthorizedAccount");
     });
 
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
+    it("Should support ERC721 interface", async function () {
       const { sbt } = await loadFixture(deploySBTFixture);
 
       expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
     });
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
+
+    it("Should support ERC721Metadata interface", async function () {
       const { sbt } = await loadFixture(deploySBTFixture);
 
-      expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
+      expect(await sbt.supportsInterface("0x5b5e139f")).to.be.true; // ERC721Metadata
     });
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
+
+    it("Should support IERC165 interface", async function () {
       const { sbt } = await loadFixture(deploySBTFixture);
 
-      expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
+      expect(await sbt.supportsInterface("0x01ffc9a7")).to.be.true; // IERC165
     });
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
+
+    it("Should not support ERC721Enumerable interface", async function () {
       const { sbt } = await loadFixture(deploySBTFixture);
 
-      expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
-    });
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
-      const { sbt } = await loadFixture(deploySBTFixture);
-
-      expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
-    });
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
-      const { sbt } = await loadFixture(deploySBTFixture);
-
-      expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
-    });
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
-      const { sbt } = await loadFixture(deploySBTFixture);
-
-      expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
-    });
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
-      const { sbt } = await loadFixture(deploySBTFixture);
-
-      expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
-    });
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
-      const { sbt } = await loadFixture(deploySBTFixture);
-
-      expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
-    });
-    it("Should support ERC721 and ERC721URIStorage interfaces", async function () {
-      const { sbt } = await loadFixture(deploySBTFixture);
-
-      expect(await sbt.supportsInterface("0x80ac58cd")).to.be.true; // ERC721
-      expect(await sbt.supportsInterface("0x5a5bb372")).to.be.true; // ERC721URIStorage
+      expect(await sbt.supportsInterface("0x780e9d63")).to.be.false; // ERC721Enumerable
     });
   });
 
